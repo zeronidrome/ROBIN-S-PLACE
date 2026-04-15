@@ -49,7 +49,7 @@
         .card-content { transform: skew(15deg); color: #fff; padding-left: 15px; }
         .title { background: #fff; color: #000; padding: 5px 15px; display: inline-block; font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; text-transform: uppercase; }
 
-        /* --- 4. HEADPHONE & MUSIC PANEL (REVISED PADDING) --- */
+        /* --- 4. HEADPHONE & MUSIC PANEL --- */
         .headphone-toggle {
             position: fixed; bottom: 25px; right: 25px; z-index: 300;
             background: #fff; color: #000; width: 55px; height: 55px;
@@ -60,14 +60,13 @@
 
         .music-panel {
             position: fixed; bottom: 95px; right: 25px; z-index: 250;
-            background: rgba(255, 255, 255, 0.95); padding: 15px 20px 15px 30px; /* Padding kiri ditambah biar "B" aman */
+            background: rgba(255, 255, 255, 0.95); padding: 15px 20px 15px 30px;
             transform: skew(-15deg) translateX(150%); border-right: 5px solid #00aaff;
             box-shadow: -5px 5px 0px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 10px;
             width: 290px; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; pointer-events: none;
         }
         .music-panel.active { transform: skew(-15deg) translateX(0%); opacity: 1; pointer-events: auto; }
-
-        .music-panel-content { transform: skew(15deg); } /* Balikin kemiringan buat teks di dalem */
+        .music-panel-content { transform: skew(15deg); }
 
         .song-list {
             max-height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px;
@@ -75,7 +74,6 @@
         }
         .song-list::-webkit-scrollbar { width: 4px; }
         .song-list::-webkit-scrollbar-thumb { background: #00aaff; }
-
         .song-item {
             background: #000; color: #fff; padding: 8px 12px; font-size: 0.7rem;
             cursor: pointer; border-left: 3px solid transparent; transition: 0.2s;
@@ -84,23 +82,43 @@
 
         .player-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 5px; }
         .player-controls button { background: #000; color: #fff; border: 1px solid #fff; padding: 4px 10px; font-size: 0.7rem; cursor: pointer; }
-        .player-controls button:hover { background: #00aaff; }
-
         .seek-bar { width: 100%; height: 5px; cursor: pointer; background: #ccc; appearance: none; outline: none; margin: 10px 0 2px 0; }
         .seek-bar::-webkit-slider-thumb { appearance: none; width: 10px; height: 10px; background: #00aaff; cursor: pointer; }
-        
         .time-info { font-size: 0.6rem; color: #000; font-weight: bold; text-align: right; }
 
-        /* --- 5. STATS & PROJECTS --- */
+        /* --- 5. STATS & PROJECTS (KOTAK KECIL + SCROLL) --- */
         .stat-bar { margin-bottom: 12px; }
         .stat-label { display: flex; justify-content: space-between; font-weight: bold; font-size: 0.8rem; }
         .stat-bar .bar { background: #000; height: 14px; width: 100%; border: 1px solid #fff; position: relative; }
         .stat-bar .fill { background: #fff; height: 100%; width: 0; transition: width 1s; }
         .stat-bar .fill.blue { background: #00aaff; }
-        .project-list { display: flex; flex-direction: column; gap: 8px; max-height: 300px; overflow-y: auto; }
+
+        .project-list { 
+            display: flex; flex-direction: column; gap: 8px; 
+            max-height: 280px; /* Alexis kecilin biar gak kegedean */
+            overflow-y: auto; 
+            padding-right: 10px;
+        }
         .project-item { background: #000; border: 2px solid #fff; padding: 10px; transition: 0.3s; cursor: pointer; width: 92%;}
         .project-item:hover { background: #fff; color: #000; transform: translateX(10px); }
-        button.back-btn { margin-top: 15px; background: #000; color: #fff; border: 2px solid #fff; padding: 5px 15px; cursor: pointer; }
+        .project-item h3 { margin: 0; font-size: 1rem; color: #00aaff; }
+        .project-item:hover h3 { color: #000; }
+        .project-item p { margin: 5px 0 0 0; font-size: 0.75rem; color: #ccc; }
+
+        /* --- 6. CONTACT DESIGN (BALIK KE KOTAK BIRU) --- */
+        .contact-list { display: flex; flex-direction: column; gap: 12px; }
+        .contact-item {
+            background: #000; border: 2px solid #fff; padding: 12px 15px;
+            display: flex; align-items: center; gap: 15px;
+            transition: 0.3s; text-decoration: none; color: #fff;
+            transform: skew(-5deg);
+        }
+        .contact-item:hover { background: #fff; color: #000; transform: translateX(-15px) skew(-5deg); }
+        .contact-icon { font-size: 1.1rem; font-weight: bold; background: #00aaff; padding: 3px 10px; color: #fff; min-width: 30px; text-align: center; }
+        .contact-item:hover .contact-icon { background: #000; color: #fff; }
+
+        button.back-btn { margin-top: 15px; background: #000; color: #fff; border: 2px solid #fff; padding: 5px 15px; cursor: pointer; transition: 0.3s; }
+        button.back-btn:hover { background: #fff; color: #000; }
 
         @media (max-width: 600px) {
             .music-panel { width: 250px; right: 15px; padding-left: 25px; }
@@ -123,20 +141,16 @@
     <div class="music-panel" id="player-panel" onclick="event.stopPropagation()">
         <div class="music-panel-content">
             <div id="song-title" style="font-size: 0.75rem; font-weight: bold; color: #000; margin-bottom: 8px;">BGM SELECTOR</div>
-            
             <div class="song-list">
                 <div class="song-item" onclick="selectSong('bgm1.mp3', 'Color Your Night', this)">COLOR YOUR NIGHT</div>
                 <div class="song-item" onclick="selectSong('bgm2.mp3', 'Heartbeat, Heartbreak', this)">HEARTBEAT, HEARTBREAK</div>
                 <div class="song-item" onclick="selectSong('bgm3.mp3', 'Last Surprise', this)">LAST SURPRISE</div>
                 <div class="song-item" onclick="selectSong('bgm4.mp3', 'Its Going Down Now', this)">IT'S GOING DOWN NOW</div>
                 <div class="song-item" onclick="selectSong('bgm5.mp3', 'Mass Destruction', this)">MASS DESTRUCTION</div>
-                <div class="song-item" onclick="selectSong('bgm6.mp3', 'Wake Up, Get Up', this)">WAKE UP, GET UP</div>
-                
+                <div class="song-item" onclick="selectSong('Mass Destruction.mp3', 'Wake Up, Get Up', this)">WAKE UP, GET UP</div>
             </div>
-
             <input type="range" id="seek-bar" class="seek-bar" value="0" step="1">
             <div class="time-info" id="time-display">0:00 / 0:00</div>
-
             <div class="player-controls">
                 <button onclick="toggleMusic()" id="play-btn">PLAY</button>
                 <button onclick="stopMusic()">STOP</button>
@@ -157,7 +171,7 @@
         <div class="p3r-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">MUQORROBIN HASIR - MANAJEMEN INFORMATIKA</h2>
-                <p>Seorang mahasiswa biasa. Suka ngegame, design, dan malas ngoding</p>
+                <p>Seorang mahasiswa biasa. Suka ngegame, design, dan vibes koding (malas ngoding)</p>
                 <button class="back-btn" onclick="closeSection('about-overlay')">BACK</button>
             </div>
         </div>
@@ -189,7 +203,6 @@
                     <div class="project-item"><h3>BEYOND: THE DISGRACE</h3><p>when when</p></div>
                     <div class="project-item"><h3>LUCYD</h3><p>when when</p></div>
                 </div>
-                
                 <button class="back-btn" onclick="closeSection('projects-overlay')">BACK</button>
             </div>
         </div>
@@ -199,9 +212,16 @@
         <div class="p3r-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">SOCIAL LINK</h2>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <a href="https://www.instagram.com/sebutsajarobin" target="_blank" style="color: #fff; text-decoration: none; background: #000; padding: 10px; border: 2px solid #fff;">INSTAGRAM</a>
-                    <a href="https://github.com/zeronidrome" target="_blank" style="color: #fff; text-decoration: none; background: #000; padding: 10px; border: 2px solid #fff;">GITHUB</a>
+                <div class="contact-list">
+                    <a href="https://www.instagram.com/sebutsajarobin" target="_blank" class="contact-item">
+                        <div class="contact-icon">IG</div><span>My Instagram</span>
+                    </a>
+                    <a href="https://github.com/zeronidrome" target="_blank" class="contact-item">
+                        <div class="contact-icon">GH</div><span>My GitHub</span>
+                    </a>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=muqorrobinhasir@gmail.com" target="_blank" class="contact-item">
+                        <div class="contact-icon">EM</div><span>My Email</span>
+                    </a>
                 </div>
                 <button class="back-btn" onclick="closeSection('contact-overlay')">BACK</button>
             </div>
