@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Robin</title>
+    <title>P3R Menu - Robin's Place</title>
     
     <style>
         /* --- 1. RESET & BODY --- */
@@ -52,44 +52,31 @@
         #skills-card { width: 500px; }
 
         .p3r-card.show { transform: skew(-15deg) translateX(0%); opacity: 1; }
-        .card-content { transform: skew(15deg); color: #fff; padding-left: 10px; }
+        .card-content { transform: skew(15deg); color: #fff; padding-left: 15px; position: relative; z-index: 2; }
         .title { background: #fff; color: #000; padding: 5px 15px; display: inline-block; font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; text-transform: uppercase; }
 
-        /* --- 5. PROJECTS DESIGN (VERTICAL & SCROLLABLE) --- */
-        .project-list { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 10px; 
-            max-height: 350px; /* Batas tinggi biar bisa discroll */
-            overflow-y: auto;  /* Munculin scrollbar kalau penuh */
-            padding-right: 10px;
-        }
-
-        /* Styling Scrollbar biar Estetik P3R */
-        .project-list::-webkit-scrollbar { width: 6px; }
-        .project-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
-        .project-list::-webkit-scrollbar-thumb { background: #fff; border-radius: 10px; }
-
-        .project-item { 
-            background: #000; 
-            border: 2px solid #fff; 
-            padding: 15px; 
-            transition: 0.3s; 
-            cursor: pointer; 
-            width: 90%;
-        }
-        .project-item:hover { background: #fff; transform: translateX(10px); }
-        .project-item h3 { margin: 0; font-size: 1.1rem; color: #00aaff; text-transform: uppercase; }
-        .project-item:hover h3 { color: #000; }
-        .project-item p { margin: 5px 0 0 0; font-size: 0.85rem; color: #ccc; font-family: sans-serif; }
-        .project-item:hover p { color: #333; }
-
-        /* --- 6. STATS BARS --- */
+        /* --- 5. STATS BARS --- */
         .stat-bar { margin-bottom: 15px; }
         .stat-label { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
         .stat-bar .bar { background: #000; height: 16px; width: 100%; border: 1px solid #fff; position: relative; }
         .stat-bar .fill { background: #fff; height: 100%; width: 0; transition: width 1.5s cubic-bezier(0.1, 0.5, 0.1, 1); }
         .stat-bar .fill.blue { background: #00aaff; }
+
+        /* --- 6. PROJECTS (SCROLLABLE) --- */
+        .project-list { 
+            display: flex; flex-direction: column; gap: 10px; 
+            max-height: 320px; overflow-y: auto; padding-right: 10px;
+        }
+        .project-list::-webkit-scrollbar { width: 6px; }
+        .project-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+        .project-list::-webkit-scrollbar-thumb { background: #fff; border-radius: 10px; }
+
+        .project-item { background: #000; border: 2px solid #fff; padding: 15px; transition: 0.3s; cursor: pointer; width: 90%; }
+        .project-item:hover { background: #fff; transform: translateX(10px); }
+        .project-item h3 { margin: 0; font-size: 1.1rem; color: #00aaff; text-transform: uppercase; }
+        .project-item:hover h3 { color: #000; }
+        .project-item p { margin: 5px 0 0 0; font-size: 0.85rem; color: #ccc; font-family: sans-serif; }
+        .project-item:hover p { color: #333; }
 
         /* --- 7. CONTACT DESIGN --- */
         .contact-list { display: flex; flex-direction: column; gap: 12px; }
@@ -97,9 +84,32 @@
         .contact-item:hover { background: #fff; color: #000; transform: translateX(-15px) skew(-5deg); }
         .contact-icon { font-size: 1.1rem; font-weight: bold; background: #00aaff; padding: 3px 10px; color: #fff; min-width: 30px; text-align: center; }
 
-        /* --- 8. BUTTON --- */
-        button { margin-top: 25px; background: #000; color: #fff; border: 2px solid #fff; padding: 10px 30px; cursor: pointer; font-family: 'Arial Black', sans-serif; transition: 0.3s; }
+        /* --- 8. SILUET ABOUT ME --- */
+        .about-image {
+            position: absolute; bottom: -5px; right: 0px; 
+            width: 120px; height: auto; transform: skew(-15deg); 
+            z-index: 1; opacity: 0.9;
+        }
+
+        /* --- 9. BUTTON --- */
+        button { margin-top: 25px; background: #000; color: #fff; border: 2px solid #fff; padding: 10px 30px; cursor: pointer; font-family: 'Arial Black', sans-serif; transition: 0.3s; position: relative; z-index: 3; }
         button:hover { background: #fff; color: #000; }
+
+        /* --- 10. RESPONSIVE MOBILE --- */
+        @media (max-width: 600px) {
+            .p3r-menu li { width: 260px; padding: 10px 0; }
+            .p3r-menu li span { font-size: 1.1rem; }
+            .p3r-card { 
+                width: 85vw !important; margin: 0 auto 10vh auto; 
+                left: 0; right: 0; padding: 20px; 
+                transform: skew(-8deg) translateX(120%); 
+            }
+            .p3r-card.show { transform: skew(-8deg) translateX(0%); }
+            .card-content { transform: skew(8deg); padding-left: 5px; }
+            #skills-card { width: 85vw; }
+            .project-list { max-height: 250px; }
+            .about-image { width: 80px; }
+        }
     </style>
 </head>
 <body>
@@ -119,9 +129,10 @@
 
     <div id="about-overlay" class="p3r-overlay" onclick="closeSection('about-overlay')">
         <div id="about-card" class="p3r-card" onclick="event.stopPropagation()">
+            <img src="item.png" alt="Silhouette" class="about-image">
             <div class="card-content">
                 <h2 class="title">MUQORROBIN HASIR - MANAGEMENT INFORMATIKA</h2>
-                <p>19-year-old student from Palembang. Passionate in gaming, design, and vibes koding (malas ngoding)</p>
+                <p>19-year-old student from Palembang. Passionate in gaming, design, and vibes koding (malas ngoding).</p>
                 <button onclick="closeSection('about-overlay')">BACK</button>
             </div>
         </div>
@@ -146,30 +157,16 @@
             <div class="card-content">
                 <h2 class="title">MISSION LOG</h2>
                 <div class="project-list">
-                    
                     <a href="Beyond.docx" download style="text-decoration: none;">
                         <div class="project-item">
                             <h3>BEYOND STORY</h3>
                             <p>Chapter 1-7 (Incomplete). Click to download Word file.</p>
                         </div>
                     </a>
-
-                    <div class="project-item">
-                        <h3>NIRWANA</h3>
-                        <p>when when</p>
-                    </div>
-
-                    <div class="project-item">
-                        <h3>BEYOND: THE DISGRACE</h3>
-                        <p>when when</p>
-                    </div>
-
-                    <div class="project-item">
-                        <h3>LUCYD</h3>
-                        <p>when when</p>
-                    </div>
-
-                    </div>
+                    <div class="project-item"><h3>NIRWANA</h3><p>when when</p></div>
+                    <div class="project-item"><h3>BEYOND: THE DISGRACE</h3><p>when when</p></div>
+                    <div class="project-item"><h3>LUCYD</h3><p>when when</p></div>
+                </div>
                 <button onclick="closeSection('projects-overlay')">BACK</button>
             </div>
         </div>
@@ -215,7 +212,6 @@
             }
             setTimeout(() => {
                 overlay.style.display = 'none';
-                overlay.style.opacity = '1';
             }, 600);
             document.querySelector('.p3r-menu').style.opacity = '1';
             document.querySelector('.p3r-menu').style.pointerEvents = 'auto';
