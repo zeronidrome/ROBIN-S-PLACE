@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robin's Place</title>
+    <title>Robin's Palace</title>
     
     <style>
         /* --- 1. RESET & BODY --- */
@@ -35,7 +35,7 @@
         /* --- 3. OVERLAY & CARDS --- */
         .p3r-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.6); z-index: 100; cursor: pointer;
+            background: rgba(0, 0, 0, 0.6); z-index: 100;
             justify-content: flex-end; align-items: flex-end; overflow: hidden;
         }
         .p3r-card {
@@ -44,82 +44,99 @@
             transform: skew(-15deg) translateX(120%); opacity: 0;
             border: 4px solid #fff; box-shadow: 15px 15px 0px rgba(0, 0, 0, 0.5);
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.6s ease;
-            cursor: default;
         }
-        #skills-card { width: 500px; }
         .p3r-card.show { transform: skew(-15deg) translateX(0%); opacity: 1; }
-        .card-content { transform: skew(15deg); color: #fff; padding-right: 15px; position: relative; z-index: 2; }
+        .card-content { transform: skew(15deg); color: #fff; padding-left: 15px; }
         .title { background: #fff; color: #000; padding: 5px 15px; display: inline-block; font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; text-transform: uppercase; }
 
-        /* --- 4. ADVANCED MUSIC PLAYER (POJOK KANAN BAWAH) --- */
-        .music-player {
-            position: fixed; bottom: 25px; right: 25px; z-index: 200;
-            background: rgba(255, 255, 255, 0.9); padding: 12px 18px;
-            transform: skew(-15deg); border-right: 5px solid #00aaff;
-            box-shadow: -5px 5px 0px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 8px;
-            width: 280px;
+        /* --- 4. HEADPHONE & MUSIC PANEL (REVISED PADDING) --- */
+        .headphone-toggle {
+            position: fixed; bottom: 25px; right: 25px; z-index: 300;
+            background: #fff; color: #000; width: 55px; height: 55px;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; box-shadow: 4px 4px 0px #00aaff; transition: 0.5s; font-size: 1.8rem;
         }
-        .player-controls { display: flex; align-items: center; gap: 10px; }
-        .player-info { transform: skew(15deg); display: flex; justify-content: space-between; font-size: 0.65rem; color: #000; font-weight: bold; }
+        .headphone-toggle.rotating { transform: rotate(360deg); }
+
+        .music-panel {
+            position: fixed; bottom: 95px; right: 25px; z-index: 250;
+            background: rgba(255, 255, 255, 0.95); padding: 15px 20px 15px 30px; /* Padding kiri ditambah biar "B" aman */
+            transform: skew(-15deg) translateX(150%); border-right: 5px solid #00aaff;
+            box-shadow: -5px 5px 0px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 10px;
+            width: 290px; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; pointer-events: none;
+        }
+        .music-panel.active { transform: skew(-15deg) translateX(0%); opacity: 1; pointer-events: auto; }
+
+        .music-panel-content { transform: skew(15deg); } /* Balikin kemiringan buat teks di dalem */
+
+        .song-list {
+            max-height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px;
+            padding-right: 5px;
+        }
+        .song-list::-webkit-scrollbar { width: 4px; }
+        .song-list::-webkit-scrollbar-thumb { background: #00aaff; }
+
+        .song-item {
+            background: #000; color: #fff; padding: 8px 12px; font-size: 0.7rem;
+            cursor: pointer; border-left: 3px solid transparent; transition: 0.2s;
+        }
+        .song-item:hover, .song-item.playing { border-left-color: #00aaff; background: #333; }
+
+        .player-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 5px; }
+        .player-controls button { background: #000; color: #fff; border: 1px solid #fff; padding: 4px 10px; font-size: 0.7rem; cursor: pointer; }
+        .player-controls button:hover { background: #00aaff; }
+
+        .seek-bar { width: 100%; height: 5px; cursor: pointer; background: #ccc; appearance: none; outline: none; margin: 10px 0 2px 0; }
+        .seek-bar::-webkit-slider-thumb { appearance: none; width: 10px; height: 10px; background: #00aaff; cursor: pointer; }
         
-        .music-player select, .music-player button {
-            background: #000; color: #fff; border: 1px solid #fff;
-            padding: 4px 8px; font-family: 'Arial Black', sans-serif; font-size: 0.7rem; cursor: pointer;
-        }
-        
-        /* SeekBar Styling */
-        .seek-bar { 
-            width: 100%; height: 6px; cursor: pointer; background: #ccc; 
-            appearance: none; outline: none; transform: skew(15deg);
-        }
-        .seek-bar::-webkit-slider-thumb { appearance: none; width: 12px; height: 12px; background: #00aaff; cursor: pointer; }
+        .time-info { font-size: 0.6rem; color: #000; font-weight: bold; text-align: right; }
 
         /* --- 5. STATS & PROJECTS --- */
-        .stat-bar { margin-bottom: 15px; }
-        .stat-label { display: flex; justify-content: space-between; font-weight: bold; font-size: 0.8rem; margin-bottom: 5px;}
-        .stat-bar .bar { background: #000; height: 16px; width: 100%; border: 1px solid #fff; position: relative; }
-        .stat-bar .fill { background: #fff; height: 100%; width: 0; transition: width 1.5s cubic-bezier(0.1, 0.5, 0.1, 1); }
+        .stat-bar { margin-bottom: 12px; }
+        .stat-label { display: flex; justify-content: space-between; font-weight: bold; font-size: 0.8rem; }
+        .stat-bar .bar { background: #000; height: 14px; width: 100%; border: 1px solid #fff; position: relative; }
+        .stat-bar .fill { background: #fff; height: 100%; width: 0; transition: width 1s; }
         .stat-bar .fill.blue { background: #00aaff; }
-        
-        .project-list { display: flex; flex-direction: column; gap: 10px; max-height: 350px; overflow-y: auto; padding-right: 10px; }
-        .project-item { background: #000; border: 2px solid #fff; padding: 15px; transition: 0.3s; cursor: pointer; width: 90%;}
+        .project-list { display: flex; flex-direction: column; gap: 8px; max-height: 300px; overflow-y: auto; }
+        .project-item { background: #000; border: 2px solid #fff; padding: 10px; transition: 0.3s; cursor: pointer; width: 92%;}
         .project-item:hover { background: #fff; color: #000; transform: translateX(10px); }
-
-        .contact-list { display: flex; flex-direction: column; gap: 10px; }
-        .contact-item { background: #000; border: 2px solid #fff; padding: 10px; display: flex; align-items: center; gap: 15px; text-decoration: none; color: #fff; transition: 0.3s; transform: skew(-5deg); }
-        .contact-item:hover { background: #fff; color: #000; }
-        .contact-icon { background: #00aaff; color: #fff; padding: 2px 8px; font-weight: bold; min-width: 25px; text-align: center;}
-
-        button.back-btn { margin-top: 20px; background: #000; color: #fff; border: 2px solid #fff; padding: 8px 20px; cursor: pointer; transition: 0.3s; position: relative; z-index: 3;}
-        button.back-btn:hover { background: #fff; color: #000; }
+        button.back-btn { margin-top: 15px; background: #000; color: #fff; border: 2px solid #fff; padding: 5px 15px; cursor: pointer; }
 
         @media (max-width: 600px) {
-            .music-player { width: 220px; right: 10px; bottom: 15px; }
-            .p3r-menu li { width: 250px; }
+            .music-panel { width: 250px; right: 15px; padding-left: 25px; }
+            .p3r-card { width: 85vw !important; margin: 0 auto 10vh auto; left: 0; right: 0; transform: skew(-8deg) translateX(120%); }
+            .p3r-card.show { transform: skew(-8deg) translateX(0%); }
         }
     </style>
 </head>
-<body>
+<body onclick="closePanelOutside(event)">
 
     <video autoplay muted loop id="bg-video">
         <source src="BG.mp4" type="video/mp4">
     </video>
 
     <audio id="click-sfx" src="click.mp3"></audio>
-    <audio id="bgm-player"></audio> <div class="music-player">
-        <div class="player-info">
-            <span id="song-title">SELECT BGM</span>
-            <span id="time-display">00:00 / 00:00</span>
-        </div>
-        <input type="range" id="seek-bar" class="seek-bar" value="0" step="1">
-        <div class="player-controls">
-            <select id="bgm-select" onchange="changeBGM()">
-                <option value="">None</option>
-                <option value="bgm1.mp3">Color Your Night</option>
-                <option value="bgm2.mp3">Heartbeat, Heartbreak</option>
-                <option value="bgm3.mp3">Last Surprise</option>
-            </select>
-            <button onclick="toggleMusic()" id="play-btn">PLAY</button>
+    <audio id="bgm-player"></audio>
+
+    <div class="headphone-toggle" id="head-icon" onclick="togglePlayer(event)">🎧</div>
+
+    <div class="music-panel" id="player-panel" onclick="event.stopPropagation()">
+        <div class="music-panel-content">
+            <div id="song-title" style="font-size: 0.75rem; font-weight: bold; color: #000; margin-bottom: 8px;">BGM SELECTOR</div>
+            
+            <div class="song-list">
+                <div class="song-item" onclick="selectSong('bgm1.mp3', 'Color Your Night', this)">COLOR YOUR NIGHT</div>
+                <div class="song-item" onclick="selectSong('bgm2.mp3', 'Heartbeat, Heartbreak', this)">HEARTBEAT, HEARTBREAK</div>
+                <div class="song-item" onclick="selectSong('bgm3.mp3', 'Last Surprise', this)">LAST SURPRISE</div>
+            </div>
+
+            <input type="range" id="seek-bar" class="seek-bar" value="0" step="1">
+            <div class="time-info" id="time-display">0:00 / 0:00</div>
+
+            <div class="player-controls">
+                <button onclick="toggleMusic()" id="play-btn">PLAY</button>
+                <button onclick="stopMusic()">STOP</button>
+            </div>
         </div>
     </div>
 
@@ -133,7 +150,7 @@
     </nav>
 
     <div id="about-overlay" class="p3r-overlay" onclick="closeSection('about-overlay')">
-        <div id="about-card" class="p3r-card" onclick="event.stopPropagation()">
+        <div class="p3r-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">MUQORROBIN HASIR - MANAGEMENT INFORMATIKA</h2>
                 <p>19-year-old student from Palembang. Passionate in gaming, design, and vibes koding (malas ngoding)</p>
@@ -143,32 +160,26 @@
     </div>
 
     <div id="skills-overlay" class="p3r-overlay" onclick="closeSection('skills-overlay')">
-        <div id="skills-card" class="p3r-card" onclick="event.stopPropagation()">
+        <div class="p3r-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">SOCIAL STATS</h2>
                 <div class="stat-bar"><div class="stat-label"><span>WRITING</span><span>99%</span></div><div class="bar"><div class="fill" data-width="99%"></div></div></div>
-                <div class="stat-bar"><div class="stat-label"><span>GAMING</span><span>MAX (200%)</span></div><div class="bar"><div class="fill blue" data-width="100%"></div></div></div>
+                <div class="stat-bar"><div class="stat-label"><span>GAMING</span><span>MAX</span></div><div class="bar"><div class="fill blue" data-width="100%"></div></div></div>
                 <div class="stat-bar"><div class="stat-label"><span>CODING</span><span>MALAS</span></div><div class="bar"><div class="fill" data-width="5%"></div></div></div>
-                <div class="stat-bar"><div class="stat-label"><span>DESIGN</span><span>50%</span></div><div class="bar"><div class="fill" data-width="50%"></div></div></div>
-                <div class="stat-bar"><div class="stat-label"><span>PUBLIC SPEAKING</span><span>10%</span></div><div class="bar"><div class="fill" data-width="10%"></div></div></div>
                 <button class="back-btn" onclick="closeSection('skills-overlay')">BACK</button>
             </div>
         </div>
     </div>
 
     <div id="projects-overlay" class="p3r-overlay" onclick="closeSection('projects-overlay')">
-        <div id="projects-card" class="p3r-card" onclick="event.stopPropagation()">
+        <div class="p3r-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">MISSION LOG</h2>
                 <div class="project-list">
                     <a href="Beyond.docx" download style="text-decoration: none;">
-                        <div class="project-item">
-                            <h3>BEYOND STORY</h3>
-                            <p>Chapter 1-7 (Incomplete). Click to download.</p>
-                        </div>
+                        <div class="project-item"><h3>BEYOND STORY</h3><p>Chapter 1-7. Download Word file.</p></div>
                     </a>
                     <div class="project-item"><h3>NIRWANA</h3><p>when when</p></div>
-                    <div class="project-item"><h3>BEYOND: THE DISGRACE</h3><p>when when</p></div>
                     <div class="project-item"><h3>LUCYD</h3><p>when when</p></div>
                 </div>
                 <button class="back-btn" onclick="closeSection('projects-overlay')">BACK</button>
@@ -177,13 +188,12 @@
     </div>
 
     <div id="contact-overlay" class="p3r-overlay" onclick="closeSection('contact-overlay')">
-        <div id="contact-card" class="p3r-card" onclick="event.stopPropagation()">
+        <div class="p3r-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">SOCIAL LINK</h2>
-                <div class="contact-list">
-                    <a href="https://www.instagram.com/sebutsajarobin" target="_blank" class="contact-item"><div class="contact-icon">IG</div><span>My Instagram</span></a>
-                    <a href="https://github.com/zeronidrome" target="_blank" class="contact-item"><div class="contact-icon">GH</div><span>My GitHub</span></a>
-                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=muqorrobinhasir@gmail.com" target="_blank" class="contact-item"><div class="contact-icon">EM</div><span>My Email</span></a>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <a href="https://www.instagram.com/sebutsajarobin" target="_blank" style="color: #fff; text-decoration: none; background: #000; padding: 10px; border: 2px solid #fff;">INSTAGRAM</a>
+                    <a href="https://github.com/zeronidrome" target="_blank" style="color: #fff; text-decoration: none; background: #000; padding: 10px; border: 2px solid #fff;">GITHUB</a>
                 </div>
                 <button class="back-btn" onclick="closeSection('contact-overlay')">BACK</button>
             </div>
@@ -191,67 +201,72 @@
     </div>
 
     <script>
-        const clickSfx = document.getElementById('click-sfx');
         const bgm = document.getElementById('bgm-player');
+        const sfx = document.getElementById('click-sfx');
         const playBtn = document.getElementById('play-btn');
         const seekBar = document.getElementById('seek-bar');
         const timeDisplay = document.getElementById('time-display');
-        const bgmSelect = document.getElementById('bgm-select');
-        const songTitleDisplay = document.getElementById('song-title');
+        const playerPanel = document.getElementById('player-panel');
+        const headIcon = document.getElementById('head-icon');
 
-        function playClick() { clickSfx.currentTime = 0; clickSfx.play(); }
+        function playClick() { sfx.currentTime = 0; sfx.play(); }
+
+        function togglePlayer(e) {
+            e.stopPropagation();
+            playClick();
+            playerPanel.classList.toggle('active');
+            headIcon.classList.toggle('rotating');
+        }
+
+        function closePanelOutside(e) {
+            if (playerPanel.classList.contains('active')) {
+                playerPanel.classList.remove('active');
+                headIcon.classList.remove('rotating');
+            }
+        }
+
+        function selectSong(src, title, el) {
+            playClick();
+            document.querySelectorAll('.song-item').forEach(item => item.classList.remove('playing'));
+            el.classList.add('playing');
+            bgm.src = src;
+            document.getElementById('song-title').innerText = title.toUpperCase();
+            bgm.play();
+            playBtn.innerText = "PAUSE";
+        }
 
         function toggleMusic() {
-            if (bgm.paused) {
-                if(!bgm.src) changeBGM();
-                bgm.play();
-                playBtn.innerText = "PAUSE";
-            } else {
-                bgm.pause();
-                playBtn.innerText = "PLAY";
-            }
+            if (!bgm.src) return;
+            if (bgm.paused) { bgm.play(); playBtn.innerText = "PAUSE"; } 
+            else { bgm.pause(); playBtn.innerText = "PLAY"; }
         }
 
-        function changeBGM() {
-            if (bgmSelect.value) {
-                bgm.src = bgmSelect.value;
-                songTitleDisplay.innerText = bgmSelect.options[bgmSelect.selectedIndex].text.toUpperCase();
-                bgm.play();
-                playBtn.innerText = "PAUSE";
-            } else {
-                bgm.pause();
-                playBtn.innerText = "PLAY";
-                songTitleDisplay.innerText = "SELECT BGM";
-            }
+        function stopMusic() {
+            bgm.pause(); bgm.currentTime = 0; playBtn.innerText = "PLAY";
         }
 
-        // Auto-Next Logic
-        bgm.onended = function() {
-            let nextIndex = bgmSelect.selectedIndex + 1;
-            if (nextIndex >= bgmSelect.options.length) nextIndex = 1; // Balik ke lagu pertama (bukan None)
-            bgmSelect.selectedIndex = nextIndex;
-            changeBGM();
+        window.addEventListener('keydown', (e) => { if (e.code === "Space") { e.preventDefault(); toggleMusic(); } });
+
+        bgm.onended = () => {
+            let items = document.querySelectorAll('.song-item');
+            let current = Array.from(items).findIndex(i => i.classList.contains('playing'));
+            let next = (current + 1) % items.length;
+            items[next].click();
         };
 
-        // Update Seek Bar & Time
-        bgm.ontimeupdate = function() {
+        bgm.ontimeupdate = () => {
             if (!isNaN(bgm.duration)) {
                 seekBar.max = Math.floor(bgm.duration);
                 seekBar.value = Math.floor(bgm.currentTime);
-                
                 let curM = Math.floor(bgm.currentTime / 60);
                 let curS = Math.floor(bgm.currentTime % 60);
                 let durM = Math.floor(bgm.duration / 60);
                 let durS = Math.floor(bgm.duration % 60);
-                
                 timeDisplay.innerText = `${curM}:${curS < 10 ? '0'+curS : curS} / ${durM}:${durS < 10 ? '0'+durS : durS}`;
             }
         };
 
-        // Geser Progress Musik
-        seekBar.oninput = function() {
-            bgm.currentTime = seekBar.value;
-        };
+        seekBar.oninput = () => { bgm.currentTime = seekBar.value; };
 
         function openSection(id) {
             playClick();
@@ -259,9 +274,7 @@
             overlay.style.display = 'flex';
             setTimeout(() => {
                 overlay.querySelector('.p3r-card').classList.add('show');
-                if(id === 'skills-overlay') {
-                    overlay.querySelectorAll('.fill').forEach(f => f.style.width = f.getAttribute('data-width'));
-                }
+                if(id === 'skills-overlay') { overlay.querySelectorAll('.fill').forEach(f => f.style.width = f.getAttribute('data-width')); }
             }, 10);
             document.querySelector('.p3r-menu').style.opacity = '0.2';
             document.querySelector('.p3r-menu').style.pointerEvents = 'none';
@@ -271,9 +284,6 @@
             playClick();
             const overlay = document.getElementById(id);
             overlay.querySelector('.p3r-card').classList.remove('show');
-            if(id === 'skills-overlay') {
-                overlay.querySelectorAll('.fill').forEach(f => f.style.width = '0');
-            }
             setTimeout(() => { overlay.style.display = 'none'; }, 600);
             document.querySelector('.p3r-menu').style.opacity = '1';
             document.querySelector('.p3r-menu').style.pointerEvents = 'auto';
