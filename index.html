@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P3R Menu - Robin's Place</title>
+    <title>Robin's Place</title>
     
     <style>
         /* --- 1. RESET & BODY --- */
@@ -32,17 +32,14 @@
         .p3r-menu li:hover { background: #00aaff; width: 360px; transform: skew(-25deg) scale(1.05); }
         .p3r-menu li:hover span { color: #fff; }
 
-        /* --- 3. OVERLAY SYSTEM --- */
+        /* --- 3. OVERLAY & CARDS --- */
         .p3r-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.6); z-index: 100; cursor: pointer;
             justify-content: flex-end; align-items: flex-end; overflow: hidden;
         }
-
-        /* --- 4. CARDS SYSTEM --- */
         .p3r-card {
-            position: relative; margin-right: 5vw; margin-bottom: 5vh; 
-            width: 450px; 
+            position: relative; margin-right: 5vw; margin-bottom: 5vh; width: 450px; 
             background: rgba(0, 170, 255, 0.95); padding: 30px;
             transform: skew(-15deg) translateX(120%); opacity: 0;
             border: 4px solid #fff; box-shadow: 15px 15px 0px rgba(0, 0, 0, 0.5);
@@ -50,65 +47,64 @@
             cursor: default;
         }
         #skills-card { width: 500px; }
-
         .p3r-card.show { transform: skew(-15deg) translateX(0%); opacity: 1; }
-        .card-content { transform: skew(15deg); color: #fff; padding-left: 15px; position: relative; z-index: 2; }
+        
+        .card-content { 
+            transform: skew(15deg); color: #fff; 
+            padding-right: 15px;
+            position: relative; z-index: 2; 
+        }
+        
         .title { background: #fff; color: #000; padding: 5px 15px; display: inline-block; font-size: 1.3rem; margin-bottom: 20px; font-weight: bold; text-transform: uppercase; }
 
-        /* --- 5. STATS BARS --- */
+        /* --- 4. MUSIC PLAYER (POJOK KANAN BAWAH) --- */
+        .music-player {
+            position: fixed; 
+            bottom: 25px; 
+            right: 25px; 
+            z-index: 200;
+            background: rgba(255, 255, 255, 0.9); 
+            padding: 10px 15px;
+            transform: skew(-15deg); 
+            border-right: 5px solid #00aaff; 
+            box-shadow: -5px 5px 0px rgba(0,0,0,0.5); 
+            display: flex; 
+            align-items: center; 
+            gap: 12px;
+        }
+        .music-player select, .music-player button {
+            background: #000; color: #fff; border: 1px solid #fff;
+            padding: 5px 8px; font-family: 'Arial Black', sans-serif; font-size: 0.7rem; cursor: pointer;
+        }
+        .music-player span { color: #000; font-size: 0.7rem; transform: skew(15deg); display: block; font-weight: bold; }
+
+        /* --- 5. STATS & PROJECTS --- */
         .stat-bar { margin-bottom: 15px; }
-        .stat-label { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
+        .stat-label { display: flex; justify-content: space-between; font-weight: bold; font-size: 0.8rem; margin-bottom: 5px;}
         .stat-bar .bar { background: #000; height: 16px; width: 100%; border: 1px solid #fff; position: relative; }
         .stat-bar .fill { background: #fff; height: 100%; width: 0; transition: width 1.5s cubic-bezier(0.1, 0.5, 0.1, 1); }
         .stat-bar .fill.blue { background: #00aaff; }
+        
+        .project-list { display: flex; flex-direction: column; gap: 10px; max-height: 350px; overflow-y: auto; padding-right: 10px; }
+        .project-item { background: #000; border: 2px solid #fff; padding: 15px; transition: 0.3s; cursor: pointer; width: 90%;}
+        .project-item:hover { background: #fff; color: #000; transform: translateX(10px); }
 
-        /* --- 6. PROJECTS (SCROLLABLE) --- */
-        .project-list { 
-            display: flex; flex-direction: column; gap: 10px; 
-            max-height: 320px; overflow-y: auto; padding-right: 10px;
-        }
-        .project-list::-webkit-scrollbar { width: 6px; }
-        .project-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
-        .project-list::-webkit-scrollbar-thumb { background: #fff; border-radius: 10px; }
+        .contact-list { display: flex; flex-direction: column; gap: 10px; }
+        .contact-item { background: #000; border: 2px solid #fff; padding: 10px; display: flex; align-items: center; gap: 15px; text-decoration: none; color: #fff; transition: 0.3s; transform: skew(-5deg); }
+        .contact-item:hover { background: #fff; color: #000; }
+        .contact-icon { background: #00aaff; color: #fff; padding: 2px 8px; font-weight: bold; min-width: 25px; text-align: center;}
 
-        .project-item { background: #000; border: 2px solid #fff; padding: 15px; transition: 0.3s; cursor: pointer; width: 90%; }
-        .project-item:hover { background: #fff; transform: translateX(10px); }
-        .project-item h3 { margin: 0; font-size: 1.1rem; color: #00aaff; text-transform: uppercase; }
-        .project-item:hover h3 { color: #000; }
-        .project-item p { margin: 5px 0 0 0; font-size: 0.85rem; color: #ccc; font-family: sans-serif; }
-        .project-item:hover p { color: #333; }
+        button.back-btn { margin-top: 20px; background: #000; color: #fff; border: 2px solid #fff; padding: 8px 20px; cursor: pointer; transition: 0.3s; position: relative; z-index: 3;}
+        button.back-btn:hover { background: #fff; color: #000; }
 
-        /* --- 7. CONTACT DESIGN --- */
-        .contact-list { display: flex; flex-direction: column; gap: 12px; }
-        .contact-item { background: #000; border: 2px solid #fff; padding: 12px 15px; display: flex; align-items: center; gap: 15px; transition: 0.3s; text-decoration: none; color: #fff; transform: skew(-5deg); }
-        .contact-item:hover { background: #fff; color: #000; transform: translateX(-15px) skew(-5deg); }
-        .contact-icon { font-size: 1.1rem; font-weight: bold; background: #00aaff; padding: 3px 10px; color: #fff; min-width: 30px; text-align: center; }
-
-        /* --- 8. SILUET ABOUT ME --- */
-        .about-image {
-            position: absolute; bottom: -5px; right: 0px; 
-            width: 120px; height: auto; transform: skew(-15deg); 
-            z-index: 1; opacity: 0.9;
-        }
-
-        /* --- 9. BUTTON --- */
-        button { margin-top: 25px; background: #000; color: #fff; border: 2px solid #fff; padding: 10px 30px; cursor: pointer; font-family: 'Arial Black', sans-serif; transition: 0.3s; position: relative; z-index: 3; }
-        button:hover { background: #fff; color: #000; }
-
-        /* --- 10. RESPONSIVE MOBILE --- */
+        /* --- 6. MOBILE RESPONSIVE --- */
         @media (max-width: 600px) {
-            .p3r-menu li { width: 260px; padding: 10px 0; }
-            .p3r-menu li span { font-size: 1.1rem; }
-            .p3r-card { 
-                width: 85vw !important; margin: 0 auto 10vh auto; 
-                left: 0; right: 0; padding: 20px; 
-                transform: skew(-8deg) translateX(120%); 
-            }
+            .p3r-menu li { width: 250px; }
+            .p3r-card { width: 85vw !important; margin: 0 auto 10vh auto; left: 0; right: 0; transform: skew(-8deg) translateX(120%); }
             .p3r-card.show { transform: skew(-8deg) translateX(0%); }
-            .card-content { transform: skew(8deg); padding-left: 5px; }
-            #skills-card { width: 85vw; }
-            .project-list { max-height: 250px; }
-            .about-image { width: 80px; }
+            .card-content { transform: skew(8deg); padding-right: 10px; }
+            .music-player { bottom: 15px; right: 15px; padding: 5px; gap: 8px; }
+            .music-player select { width: 80px; font-size: 0.6rem; }
         }
     </style>
 </head>
@@ -117,6 +113,20 @@
     <video autoplay muted loop id="bg-video">
         <source src="BG.mp4" type="video/mp4">
     </video>
+
+    <audio id="click-sfx" src="click.mp3"></audio>
+    <audio id="bgm-player" loop></audio>
+
+    <div class="music-player">
+        <span>BGM:</span>
+        <select id="bgm-select" onchange="changeBGM()">
+            <option value="">None</option>
+            <option value="bgm1.mp3">Color Your Night</option>
+            <option value="bgm2.mp3">Heartbeat, Heartbreak</option>
+            <option value="bgm3.mp3">Last Surprise</option>
+        </select>
+        <button onclick="toggleMusic()" id="play-btn">PLAY</button>
+    </div>
 
     <nav class="p3r-menu">
         <ul>
@@ -129,11 +139,10 @@
 
     <div id="about-overlay" class="p3r-overlay" onclick="closeSection('about-overlay')">
         <div id="about-card" class="p3r-card" onclick="event.stopPropagation()">
-            
             <div class="card-content">
-                <h2 class="title">MUQORROBIN HASIR - MANAJEMEN INFORMATIKA</h2>
-                <p>Cuma mahasiswa biasa. Suka ngegame, design, tapi malas ngoding.</p>
-                <button onclick="closeSection('about-overlay')">BACK</button>
+                <h2 class="title">MUQORROBIN HASIR - MANAGEMENT INFORMATIKA</h2>
+                <p>19-year-old student from Palembang. Passionate in gaming, design, and vibes koding (malas ngoding)</p>
+                <button class="back-btn" onclick="closeSection('about-overlay')">BACK</button>
             </div>
         </div>
     </div>
@@ -147,7 +156,7 @@
                 <div class="stat-bar"><div class="stat-label"><span>CODING</span><span>MALAS</span></div><div class="bar"><div class="fill" data-width="5%"></div></div></div>
                 <div class="stat-bar"><div class="stat-label"><span>DESIGN</span><span>50%</span></div><div class="bar"><div class="fill" data-width="50%"></div></div></div>
                 <div class="stat-bar"><div class="stat-label"><span>PUBLIC SPEAKING</span><span>10%</span></div><div class="bar"><div class="fill" data-width="10%"></div></div></div>
-                <button onclick="closeSection('skills-overlay')">BACK</button>
+                <button class="back-btn" onclick="closeSection('skills-overlay')">BACK</button>
             </div>
         </div>
     </div>
@@ -167,7 +176,7 @@
                     <div class="project-item"><h3>BEYOND: THE DISGRACE</h3><p>when when</p></div>
                     <div class="project-item"><h3>LUCYD</h3><p>when when</p></div>
                 </div>
-                <button onclick="closeSection('projects-overlay')">BACK</button>
+                <button class="back-btn" onclick="closeSection('projects-overlay')">BACK</button>
             </div>
         </div>
     </div>
@@ -181,21 +190,52 @@
                     <a href="https://github.com/zeronidrome" target="_blank" class="contact-item"><div class="contact-icon">GH</div><span>My GitHub</span></a>
                     <a href="https://mail.google.com/mail/?view=cm&fs=1&to=muqorrobinhasir@gmail.com" target="_blank" class="contact-item"><div class="contact-icon">EM</div><span>My Email</span></a>
                 </div>
-                <button onclick="closeSection('contact-overlay')">BACK</button>
+                <button class="back-btn" onclick="closeSection('contact-overlay')">BACK</button>
             </div>
         </div>
     </div>
 
     <script>
+        const clickSfx = document.getElementById('click-sfx');
+        const bgm = document.getElementById('bgm-player');
+        const playBtn = document.getElementById('play-btn');
+
+        function playClick() {
+            clickSfx.currentTime = 0;
+            clickSfx.play();
+        }
+
+        function toggleMusic() {
+            if (bgm.paused) {
+                if(!bgm.src) changeBGM();
+                bgm.play();
+                playBtn.innerText = "PAUSE";
+            } else {
+                bgm.pause();
+                playBtn.innerText = "PLAY";
+            }
+        }
+
+        function changeBGM() {
+            const select = document.getElementById('bgm-select');
+            if (select.value) {
+                bgm.src = select.value;
+                bgm.play();
+                playBtn.innerText = "PAUSE";
+            } else {
+                bgm.pause();
+                playBtn.innerText = "PLAY";
+            }
+        }
+
         function openSection(id) {
+            playClick();
             const overlay = document.getElementById(id);
-            const card = overlay.querySelector('.p3r-card');
             overlay.style.display = 'flex';
             setTimeout(() => {
-                card.classList.add('show');
+                overlay.querySelector('.p3r-card').classList.add('show');
                 if(id === 'skills-overlay') {
-                    const fills = overlay.querySelectorAll('.fill');
-                    fills.forEach(f => f.style.width = f.getAttribute('data-width'));
+                    overlay.querySelectorAll('.fill').forEach(f => f.style.width = f.getAttribute('data-width'));
                 }
             }, 10);
             document.querySelector('.p3r-menu').style.opacity = '0.2';
@@ -203,16 +243,13 @@
         }
 
         function closeSection(id) {
+            playClick();
             const overlay = document.getElementById(id);
-            const card = overlay.querySelector('.p3r-card');
-            card.classList.remove('show');
+            overlay.querySelector('.p3r-card').classList.remove('show');
             if(id === 'skills-overlay') {
-                const fills = overlay.querySelectorAll('.fill');
-                fills.forEach(f => f.style.width = '0');
+                overlay.querySelectorAll('.fill').forEach(f => f.style.width = '0');
             }
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 600);
+            setTimeout(() => { overlay.style.display = 'none'; }, 600);
             document.querySelector('.p3r-menu').style.opacity = '1';
             document.querySelector('.p3r-menu').style.pointerEvents = 'auto';
         }
