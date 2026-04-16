@@ -1,0 +1,379 @@
+/* --- 1. RESET & BODY --- */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #000;
+  font-family: "Arial Black", sans-serif;
+}
+
+#bg-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+/* --- 2. MENU UTAMA --- */
+.p3r-menu {
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+.p3r-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: rotate(-10deg);
+}
+.p3r-menu li {
+  background: rgba(255, 255, 255, 0.95);
+  margin: 8px 0;
+  padding: 12px 0;
+  width: 320px;
+  text-align: center;
+  transform: skew(-25deg);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  border-left: 8px solid #00aaff;
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3);
+}
+.p3r-menu li span {
+  display: block;
+  font-size: 1.4rem;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transform: skew(25deg);
+}
+.p3r-menu li:hover {
+  background: #00aaff;
+  width: 360px;
+  transform: skew(-25deg) scale(1.05);
+}
+.p3r-menu li:hover span {
+  color: #fff;
+}
+
+/* --- 3. OVERLAY & CARDS --- */
+.p3r-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  justify-content: flex-end;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.p3r-card {
+  position: relative;
+  margin-right: 5vw;
+  margin-bottom: 5vh;
+  width: 450px;
+  background: rgba(0, 170, 255, 0.95);
+  padding: 30px;
+  transform: skew(-15deg) translateX(120%);
+  opacity: 0;
+  border: 4px solid #fff;
+  box-shadow: 15px 15px 0px rgba(0, 0, 0, 0.5);
+  transition:
+    transform 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+    opacity 0.6s ease;
+}
+.p3r-card.show {
+  transform: skew(-15deg) translateX(0%);
+  opacity: 1;
+}
+.card-content {
+  transform: skew(15deg);
+  color: #fff;
+  padding-left: 15px;
+}
+
+.title {
+  background: #fff;
+  color: #000;
+  padding: 5px 15px;
+  display: inline-block;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#projects-overlay .p3r-card {
+  width: 520px;
+}
+
+/* --- 4. HEADPHONE & MUSIC PANEL --- */
+.headphone-toggle {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 300;
+  background: #fff;
+  color: #000;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #00aaff;
+  transition: 0.5s;
+  font-size: 1.8rem;
+}
+.headphone-toggle.rotating {
+  transform: rotate(360deg);
+}
+
+.music-panel {
+  position: fixed;
+  bottom: 95px;
+  right: 25px;
+  z-index: 250;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px 20px 15px 30px;
+  transform: skew(-15deg) translateX(150%);
+  border-right: 5px solid #00aaff;
+  box-shadow: -5px 5px 0px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 290px;
+  transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity: 0;
+  pointer-events: none;
+}
+.music-panel.active {
+  transform: skew(-15deg) translateX(0%);
+  opacity: 1;
+  pointer-events: auto;
+}
+.music-panel-content {
+  transform: skew(15deg);
+}
+
+.song-list {
+  max-height: 120px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-right: 5px;
+}
+.song-list::-webkit-scrollbar {
+  width: 4px;
+}
+.song-list::-webkit-scrollbar-thumb {
+  background: #00aaff;
+}
+.song-item {
+  background: #000;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: 0.2s;
+}
+.song-item:hover,
+.song-item.playing {
+  border-left-color: #00aaff;
+  background: #333;
+}
+
+.player-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+.player-controls button {
+  background: #000;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+.seek-bar {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  background: #ccc;
+  appearance: none;
+  outline: none;
+  margin: 10px 0 2px 0;
+}
+.seek-bar::-webkit-slider-thumb {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: #00aaff;
+  cursor: pointer;
+}
+.time-info {
+  font-size: 0.6rem;
+  color: #000;
+  font-weight: bold;
+  text-align: right;
+}
+
+/* --- 5. STATS & PROJECTS (KOTAK KECIL + SCROLL) --- */
+.stat-bar {
+  margin-bottom: 12px;
+}
+.stat-label {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+.stat-bar .bar {
+  background: #000;
+  height: 14px;
+  width: 100%;
+  border: 1px solid #fff;
+  position: relative;
+}
+.stat-bar .fill {
+  background: #fff;
+  height: 100%;
+  width: 0;
+  transition: width 1s;
+}
+.stat-bar .fill.blue {
+  background: #00aaff;
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.project-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.project-list::-webkit-scrollbar-thumb {
+  background: #fff;
+}
+
+.project-item {
+  background: #000;
+  border: 2px solid #fff;
+  padding: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+.project-item:hover {
+  background: #fff;
+  color: #000;
+  transform: translateX(10px);
+}
+.project-item h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #00aaff;
+}
+.project-item:hover h3 {
+  color: #000;
+}
+.project-item p {
+  margin: 5px 0 0 0;
+  font-size: 0.75rem;
+  color: #ccc;
+}
+
+/* --- 6. CONTACT DESIGN (BALIK KE KOTAK BIRU) --- */
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.contact-item {
+  background: #000;
+  border: 2px solid #fff;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: 0.3s;
+  text-decoration: none;
+  color: #fff;
+  transform: skew(-5deg);
+}
+.contact-item:hover {
+  background: #fff;
+  color: #000;
+  transform: translateX(-15px) skew(-5deg);
+}
+.contact-icon {
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: #00aaff;
+  padding: 3px 10px;
+  color: #fff;
+  min-width: 30px;
+  text-align: center;
+}
+.contact-item:hover .contact-icon {
+  background: #000;
+  color: #fff;
+}
+
+button.back-btn {
+  margin-top: 15px;
+  background: #000;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button.back-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+@media (max-width: 600px) {
+  .music-panel {
+    width: 250px;
+    right: 15px;
+    padding-left: 25px;
+  }
+  .p3r-card {
+    width: 85vw !important;
+    margin: 0 auto 10vh auto;
+    left: 0;
+    right: 0;
+    transform: skew(-8deg) translateX(120%);
+  }
+  .p3r-card.show {
+    transform: skew(-8deg) translateX(0%);
+  }
+}
