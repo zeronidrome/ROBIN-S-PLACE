@@ -22,7 +22,8 @@
 
     <div class="music-panel" id="player-panel" onclick="event.stopPropagation()">
         <div class="music-panel-content">
-            <div id="song-title" style="font-size: 1rem; font-weight: bold; color: #000; margin-bottom: 15px; text-align: center;">MUSIC PLAYER</div>
+            <div id="song-title">MUSIC PLAYER</div>
+            
             <div class="song-list">
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm1.mp3', 'Color Your Night', this)">COLOR YOUR NIGHT</div>
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm2.mp3', 'Heartbeat, Heartbreak', this)">HEARTBEAT, HEARTBREAK</div>
@@ -32,7 +33,7 @@
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm6.mp3', 'Wake Up, Get Up', this)">WAKE UP, GET UP</div>
             </div>
             
-            <div style="margin-top: auto;">
+            <div class="player-bottom-area">
                 <input type="range" id="seek-bar" class="seek-bar" value="0" step="1">
                 <div class="time-info" id="time-display">0:00 / 0:00</div>
                 
@@ -179,6 +180,7 @@
             playBtn.innerHTML = '<i class="fas fa-play"></i>';
         }
 
+        // Spacebar Shortcut
         window.addEventListener('keydown', (e) => { 
             if (e.code === "Space") { 
                 e.preventDefault(); 
