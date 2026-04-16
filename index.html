@@ -6,6 +6,7 @@
     <title>Robin's Palace</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" type="image/png" href="logo1.png">
+    <link rel="apple-touch-icon" href="logo1.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body onclick="closePanelOutside(event)">
@@ -21,24 +22,22 @@
 
     <div class="music-panel" id="player-panel" onclick="event.stopPropagation()">
         <div class="music-panel-content">
-            <h2 class="soundtrack-header">SOUND TRACK</h2>
-            <div class="song-list" id="rolling-list" onscroll="handleScroll()">
-                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm1.mp3', 'Color Your Night', this)">Color Your Night</div>
-                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm2.mp3', 'Heartbeat, Heartbreak', this)">Heartbeat, Heartbreak</div>
-                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm3.mp3', 'Last Surprise', this)">Last Surprise</div>
-                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm4.mp3', 'Its Going Down Now', this)">It's Going Down Now</div>
-                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm5.mp3', 'Mass Destruction', this)">Mass Destruction</div>
-                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm6.mp3', 'Wake Up, Get Up', this)">Wake Up, Get Up</div>
+            <div id="song-title" style="font-size: 0.75rem; font-weight: bold; color: #000; margin-bottom: 8px;">MUSIC PLAYER</div>
+            <div class="song-list">
+                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm1.mp3', 'Color Your Night', this)">COLOR YOUR NIGHT</div>
+                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm2.mp3', 'Heartbeat, Heartbreak', this)">HEARTBEAT, HEARTBREAK</div>
+                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm3.mp3', 'Last Surprise', this)">LAST SURPRISE</div>
+                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm4.mp3', 'Its Going Down Now', this)">IT'S GOING DOWN NOW</div>
+                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm5.mp3', 'Mass Destruction', this)">MASS DESTRUCTION</div>
+                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm6.mp3', 'Wake Up, Get Up', this)">WAKE UP, GET UP</div>
             </div>
-
-            <div class="integrated-player">
-                <div id="song-title">IDLE</div>
-                <input type="range" id="seek-bar" value="0" step="1">
-                <div id="time-display">0:00 / 0:00</div>
-                <div class="player-controls">
-                    <button onclick="toggleMusic()" id="play-btn"><i class="fas fa-play"></i></button>
-                    <button onclick="stopMusic()"><i class="fas fa-stop"></i></button>
-                </div>
+            
+            <input type="range" id="seek-bar" class="seek-bar" value="0" step="1">
+            <div class="time-info" id="time-display">0:00 / 0:00</div>
+            
+            <div class="player-controls">
+                <button onclick="toggleMusic()" id="play-btn"><i class="fas fa-play"></i></button>
+                <button onclick="stopMusic()"><i class="fas fa-stop"></i></button>
             </div>
         </div>
     </div>
@@ -53,122 +52,145 @@
     </nav>
 
     <div id="about-overlay" class="p3r-overlay" onclick="closeSection('about-overlay')">
-        <div class="p3r-card side-card" onclick="event.stopPropagation()">
+        <div class="p3r-card" onclick="event.stopPropagation()">
             <div class="card-content">
-                <h2 class="title">PROFILE</h2>
-                <p>MUQORROBIN HASIR - Seorang mahasiswa yang hobinya bongkar pasang kodingan sampai Alexis pusing. Hmph!</p>
+                <h2 class="title">MUQORROBIN HASIR - MANAJEMEN INFORMATIKA</h2>
+                <p>Seorang mahasiswa biasa. Suka ngegame, design, dan vibes koding (malas ngoding)</p>
                 <button class="back-btn" onclick="closeSection('about-overlay')">BACK</button>
             </div>
         </div>
     </div>
 
+    <div id="skills-overlay" class="p3r-overlay" onclick="closeSection('skills-overlay')">
+        <div class="p3r-card" onclick="event.stopPropagation()">
+            <div class="card-content">
+                <h2 class="title">SOCIAL STATS</h2>
+                <div class="stat-bar"><div class="stat-label"><span>WRITING</span><span>99%</span></div><div class="bar"><div class="fill" data-width="99%"></div></div></div>
+                <div class="stat-bar"><div class="stat-label"><span>GAMING</span><span>MAX</span></div><div class="bar"><div class="fill blue" data-width="100%"></div></div></div>
+                <div class="stat-bar"><div class="stat-label"><span>CODING</span><span>MALAS</span></div><div class="bar"><div class="fill" data-width="5%"></div></div></div>
+                <div class="stat-bar"><div class="stat-label"><span>DESAIN</span><span>KALO MOOD</span></div><div class="bar"><div class="fill" data-width="50%"></div></div></div>
+                <div class="stat-bar"><div class="stat-label"><span>PUBLIC SPEAKING</span><span>BOROS BATRE</span></div><div class="bar"><div class="fill" data-width="20%"></div></div></div>
+                <button class="back-btn" onclick="closeSection('skills-overlay')">BACK</button>
+            </div>
+        </div>
+    </div>
+
     <div id="projects-overlay" class="p3r-overlay" onclick="closeSection('projects-overlay')">
-        <div class="p3r-card center-card" onclick="event.stopPropagation()">
+        <div class="p3r-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">MISSION LOG</h2>
                 <div class="project-list">
                     <div class="project-item" onclick="openNovel('assets/files/Beyond.pdf')">
                         <h3>BEYOND</h3>
-                        <p>Chapter 1-7. Baca Online Sekarang.</p>
+                        <p>Chapter 1-7. Click to Read Online.</p>
                     </div>
-                    <div class="project-item"><h3>NIRWANA</h3><p>Coming Soon</p></div>
-                    <div class="project-item"><h3>LUCYD</h3><p>Terkunci</p></div>
+                    <div class="project-item"><h3>NIRWANA</h3><p>when when</p></div>
+                    <div class="project-item"><h3>BEYOND: THE DISGRACE</h3><p>when when</p></div>
+                    <div class="project-item"><h3>LUCYD</h3><p>when when</p></div>
                 </div>
                 <button class="back-btn" onclick="closeSection('projects-overlay')">BACK</button>
             </div>
         </div>
     </div>
 
-    <div id="skills-overlay" class="p3r-overlay" onclick="closeSection('skills-overlay')">
-        <div class="p3r-card side-card" onclick="event.stopPropagation()">
-            <div class="card-content">
-                <h2 class="title">SOCIAL STATS</h2>
-                <div class="stat-bar"><div class="stat-label"><span>KNOWLEDGE</span><span>LV 3</span></div><div class="bar"><div class="fill blue" data-width="60%"></div></div></div>
-                <div class="stat-bar"><div class="stat-label"><span>COURAGE</span><span>LV 4</span></div><div class="bar"><div class="fill" data-width="80%"></div></div></div>
-                <div class="stat-bar"><div class="stat-label"><span>WRITING</span><span>MAX</span></div><div class="bar"><div class="fill blue" data-width="100%"></div></div></div>
-                <div class="stat-bar"><div class="stat-label"><span>CODING</span><span>LV 1</span></div><div class="bar"><div class="fill" data-width="15%"></div></div></div>
-                <button class="back-btn" onclick="closeSection('skills-overlay')">BACK</button>
-            </div>
-        </div>
-    </div>
-
     <div id="contact-overlay" class="p3r-overlay" onclick="closeSection('contact-overlay')">
-        <div class="p3r-card side-card" onclick="event.stopPropagation()">
+        <div class="p3r-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">SOCIAL LINK</h2>
                 <div class="contact-list">
-                    <a href="https://instagram.com/sebutsajarobin" target="_blank" class="contact-item"><div class="contact-icon">IG</div> Instagram</a>
-                    <a href="https://github.com/zeronidrome" target="_blank" class="contact-item"><div class="contact-icon">GH</div> GitHub</a>
-                    <a href="mailto:muqorrobinhasir@gmail.com" class="contact-item"><div class="contact-icon">EM</div> Email</a>
+                    <a href="https://www.instagram.com/sebutsajarobin" target="_blank" class="contact-item">
+                        <div class="contact-icon">IG</div><span>My Instagram</span>
+                    </a>
+                    <a href="https://github.com/zeronidrome" target="_blank" class="contact-item">
+                        <div class="contact-icon">GH</div><span>My GitHub</span>
+                    </a>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=muqorrobinhasir@gmail.com" target="_blank" class="contact-item">
+                        <div class="contact-icon">EM</div><span>My Email</span>
+                    </a>
                 </div>
                 <button class="back-btn" onclick="closeSection('contact-overlay')">BACK</button>
             </div>
         </div>
     </div>
 
-    <div id="reader-overlay" class="p3r-overlay" onclick="closeReader()">
+    <div id="reader-overlay" class="p3r-overlay-center" onclick="closeReader()">
         <div class="reader-container" onclick="event.stopPropagation()">
             <div class="reader-header">
-                <span>MISSION LOG: BEYOND</span>
-                <button onclick="closeReader()">CLOSE [X]</button>
+                <span>READING MODE</span>
+                <button class="reader-close" onclick="closeReader()">CLOSE [X]</button>
             </div>
-            <iframe id="novel-iframe" src="" frameborder="0"></iframe>
+            <div class="iframe-wrapper">
+                <iframe id="novel-iframe" src="" frameborder="0"></iframe>
+            </div>
         </div>
     </div>
 
     <script>
         const bgm = document.getElementById('bgm-player');
         const sfx = document.getElementById('click-sfx');
-        const playerPanel = document.getElementById('player-panel');
-        const headIcon = document.getElementById('head-icon');
+        const playBtn = document.getElementById('play-btn');
         const seekBar = document.getElementById('seek-bar');
         const timeDisplay = document.getElementById('time-display');
-        const playBtn = document.getElementById('play-btn');
+        const playerPanel = document.getElementById('player-panel');
+        const headIcon = document.getElementById('head-icon');
 
         function playClick() { sfx.currentTime = 0; sfx.play(); }
 
         function togglePlayer(e) {
-            e.stopPropagation(); playClick();
+            e.stopPropagation();
+            playClick();
             playerPanel.classList.toggle('active');
             headIcon.classList.toggle('rotating');
-            if(playerPanel.classList.contains('active')) setTimeout(handleScroll, 100);
         }
 
         function closePanelOutside(e) {
-            if(playerPanel.classList.contains('active')) {
+            if (playerPanel.classList.contains('active')) {
                 playerPanel.classList.remove('active');
                 headIcon.classList.remove('rotating');
             }
         }
 
-        function handleScroll() {
-            const list = document.getElementById('rolling-list');
-            const items = document.querySelectorAll('.song-item');
-            const listCenter = list.getBoundingClientRect().top + list.offsetHeight / 2;
-            items.forEach(item => {
-                const itemCenter = item.getBoundingClientRect().top + item.offsetHeight / 2;
-                const distance = Math.abs(listCenter - itemCenter);
-                if (distance < 60) item.classList.add('center-focus');
-                else item.classList.remove('center-focus');
-            });
-        }
-
         function selectSong(src, title, el) {
-            playClick(); bgm.src = src;
+            playClick();
+            document.querySelectorAll('.song-item').forEach(item => item.classList.remove('playing'));
+            el.classList.add('playing');
+            bgm.src = src;
             document.getElementById('song-title').innerText = title.toUpperCase();
-            bgm.play(); playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            handleScroll();
+            bgm.play();
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
         }
 
         function toggleMusic() {
             if (!bgm.src) return;
-            if (bgm.paused) { bgm.play(); playBtn.innerHTML = '<i class="fas fa-pause"></i>'; }
-            else { bgm.pause(); playBtn.innerHTML = '<i class="fas fa-play"></i>'; }
+            if (bgm.paused) { 
+                bgm.play(); 
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>'; 
+            } else { 
+                bgm.pause(); 
+                playBtn.innerHTML = '<i class="fas fa-play"></i>'; 
+            }
         }
 
-        function stopMusic() { bgm.pause(); bgm.currentTime = 0; playBtn.innerHTML = '<i class="fas fa-play"></i>'; }
+        function stopMusic() {
+            bgm.pause(); 
+            bgm.currentTime = 0; 
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
 
-        window.addEventListener('keydown', (e) => { if (e.code === "Space") { e.preventDefault(); toggleMusic(); } });
+        // Spacebar Shortcut
+        window.addEventListener('keydown', (e) => { 
+            if (e.code === "Space") { 
+                e.preventDefault(); 
+                toggleMusic(); 
+            } 
+        });
+
+        bgm.onended = () => {
+            let items = document.querySelectorAll('.song-item');
+            let current = Array.from(items).findIndex(i => i.classList.contains('playing'));
+            let next = (current + 1) % items.length;
+            items[next].click();
+        };
 
         bgm.ontimeupdate = () => {
             if (!isNaN(bgm.duration)) {
@@ -181,26 +203,50 @@
                 timeDisplay.innerText = `${curM}:${curS < 10 ? '0'+curS : curS} / ${durM}:${durS < 10 ? '0'+durS : durS}`;
             }
         };
+
         seekBar.oninput = () => { bgm.currentTime = seekBar.value; };
 
         function openSection(id) {
             playClick();
-            document.getElementById(id).style.display = 'flex';
+            const overlay = document.getElementById(id);
+            overlay.style.display = 'flex';
             setTimeout(() => {
-                document.getElementById(id).querySelector('.p3r-card').classList.add('show');
-                if(id === 'skills-overlay') document.querySelectorAll('.fill').forEach(f => f.style.width = f.getAttribute('data-width'));
+                overlay.querySelector('.p3r-card').classList.add('show');
+                if(id === 'skills-overlay') { 
+                    overlay.querySelectorAll('.fill').forEach(f => f.style.width = f.getAttribute('data-width')); 
+                }
             }, 10);
             document.querySelector('.p3r-menu').style.opacity = '0.2';
+            document.querySelector('.p3r-menu').style.pointerEvents = 'none';
         }
-        function closeSection(id) { 
-            document.getElementById(id).querySelector('.p3r-card').classList.remove('show'); 
-            setTimeout(() => {
-                document.getElementById(id).style.display = 'none';
-                document.querySelector('.p3r-menu').style.opacity = '1';
-            }, 500); 
+
+        function closeSection(id) {
+            playClick();
+            const overlay = document.getElementById(id);
+            overlay.querySelector('.p3r-card').classList.remove('show');
+            setTimeout(() => { 
+                overlay.style.display = 'none'; 
+            }, 600);
+            document.querySelector('.p3r-menu').style.opacity = '1';
+            document.querySelector('.p3r-menu').style.pointerEvents = 'auto';
         }
-        function openNovel(url) { playClick(); document.getElementById('novel-iframe').src = url; document.getElementById('reader-overlay').style.display = 'flex'; }
-        function closeReader() { playClick(); document.getElementById('novel-iframe').src = ""; document.getElementById('reader-overlay').style.display = 'none'; }
+
+        // Fungsi buka tutup novel online
+        function openNovel(url) {
+            playClick();
+            const reader = document.getElementById('reader-overlay');
+            const iframe = document.getElementById('novel-iframe');
+            iframe.src = url;
+            reader.style.display = 'flex';
+        }
+
+        function closeReader() {
+            playClick();
+            const reader = document.getElementById('reader-overlay');
+            const iframe = document.getElementById('novel-iframe');
+            iframe.src = "";
+            reader.style.display = 'none';
+        }
     </script>
 </body>
 </html>
