@@ -1,95 +1,70 @@
 /* --- GLOBAL --- */
-body {
-    margin: 0; padding: 0; height: 100vh; width: 100vw;
-    display: flex; justify-content: center; align-items: center;
-    overflow: hidden; background: #000; font-family: 'Arial Black', sans-serif;
-}
+body { margin: 0; padding: 0; height: 100vh; width: 100vw; display: flex; justify-content: center; align-items: center; overflow: hidden; background: #000; font-family: 'Arial Black', sans-serif; }
 #bg-video { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100vw; height: 100vh; z-index: -1; object-fit: cover; filter: brightness(0.5); }
 
-/* --- MENU SAMPING --- */
-.p3r-menu { position: absolute; left: 5vw; z-index: 10; }
-.p3r-menu ul { list-style: none; padding: 0; transform: rotate(-5deg); }
-.p3r-menu li {
-    background: #fff; margin: 15px 0; padding: 15px; width: 280px;
-    transform: skew(-20deg); cursor: pointer; border-left: 8px solid #00aaff;
-    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.p3r-menu li span { display: block; transform: skew(20deg); font-size: 1.3rem; }
-.p3r-menu li:hover { background: #00aaff; width: 320px; color: #fff; transform: skew(-20deg) translateX(10px); }
+/* --- MENU SAMPING KANAN --- */
+.p3r-menu { position: absolute; right: 5vw; z-index: 10; }
+.p3r-menu ul { list-style: none; padding: 0; transform: rotate(-5deg); display: flex; flex-direction: column; align-items: flex-end; }
+.p3r-menu li { background: #fff; margin: 15px 0; padding: 15px; width: 280px; transform: skew(-20deg); cursor: pointer; border-left: 8px solid #00aaff; transition: 0.3s; }
+.p3r-menu li span { display: block; transform: skew(20deg); font-size: 1.3rem; text-align: center; }
+.p3r-menu li:hover { background: #00aaff; width: 320px; color: #fff; transform: skew(-20deg) translateX(-10px); }
 
-/* --- MUSIC PANEL SEGITIGA --- */
+/* --- MUSIC PANEL KOTAK MIRING --- */
+.headphone-toggle { position: fixed; bottom: 25px; right: 25px; z-index: 300; background: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 4px 4px 0 #00aaff; transition: 0.5s; font-size: 1.5rem; }
+.headphone-toggle.rotating { transform: rotate(360deg); background: #00aaff; color: #fff; }
+
 .music-panel {
-    position: fixed; top: 0; right: 0; width: 35vw; height: 100vh;
+    position: fixed; top: 0; right: 0; width: 25vw; height: 100vh;
     background: rgba(0, 0, 0, 0.95); z-index: 250;
-    clip-path: polygon(20% 0, 100% 0, 100% 100%, 50% 100%);
-    transform: translateX(100%); transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    border-left: 4px solid #00aaff; pointer-events: none;
+    transform: skew(-5deg) translateX(120%); transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    border-left: 6px solid #00aaff; pointer-events: none;
 }
-.music-panel.active { transform: translateX(0); pointer-events: auto; }
-.music-panel-content { display: flex; flex-direction: column; height: 100%; padding: 40px 20px 0 100px; }
+.music-panel.active { transform: skew(-5deg) translateX(0); pointer-events: auto; }
+.music-panel-content { display: flex; flex-direction: column; height: 100%; padding: 40px 20px; transform: skew(5deg); }
 
-.soundtrack-header { color: #fff; text-align: right; border-bottom: 5px solid #00aaff; padding-bottom: 10px; }
-
-.song-list { flex-grow: 1; overflow-y: auto; padding: 50px 0; }
+.soundtrack-header { color: #fff; text-align: center; border-bottom: 5px solid #00aaff; padding-bottom: 10px; font-style: italic; }
+.song-list { flex-grow: 1; overflow-y: auto; padding: 50px 0; scroll-behavior: smooth; }
 .song-list::-webkit-scrollbar { display: none; }
 
 .song-item {
     background: #fff; color: #000; margin: 12px 0; padding: 12px;
-    width: 85%; transform: skew(-15deg); cursor: pointer; opacity: 0.5;
-    text-align: right; transition: 0.3s; font-weight: bold;
+    width: 90%; transform: skew(-15deg); cursor: pointer; opacity: 0.5;
+    text-align: center; transition: 0.3s; font-weight: bold;
 }
-.song-item:hover { background: #00aaff; color: #fff; opacity: 0.9; transform: skew(-15deg) translateX(-10px); }
-.song-item.center-focus { opacity: 1; background: #00aaff; color: #fff; transform: skew(-15deg) scale(1.1) translateX(-20px); box-shadow: 5px 5px 0 #fff; }
+.song-item:hover { background: #00aaff; color: #fff; opacity: 1; transform: skew(-15deg) scale(1.05); }
+.song-item.center-focus { opacity: 1; background: #00aaff; color: #fff; transform: skew(-15deg) scale(1.1) translateX(-10px); box-shadow: 5px 5px 0 #fff; }
 
-/* PLAYER NYATU SAMA UJUNG RUNCING */
-.integrated-player {
-    padding: 30px 20px 50px 40px; color: #fff; 
-    display: flex; flex-direction: column; align-items: center;
-}
-#song-title { font-size: 0.8rem; margin-bottom: 10px; background: #fff; color: #000; padding: 2px 10px; transform: skew(-10deg); }
-#seek-bar { width: 100%; accent-color: #00aaff; cursor: pointer; }
+.integrated-player { background: #fff; padding: 20px; margin-top: auto; border: 4px solid #00aaff; color: #000; display: flex; flex-direction: column; align-items: center; }
+#song-title { font-size: 0.8rem; font-weight: bold; text-align: center; margin-bottom: 5px; }
+#seek-bar { width: 100%; accent-color: #00aaff; }
 #time-display { font-size: 0.7rem; margin: 5px 0; }
-.player-controls { display: flex; gap: 20px; }
-.player-controls button { background: none; border: 2px solid #fff; color: #fff; font-size: 1.2rem; padding: 10px; border-radius: 50%; cursor: pointer; transition: 0.3s; width: 45px; height: 45px; }
-.player-controls button:hover { background: #fff; color: #00aaff; }
+.player-controls { display: flex; gap: 15px; }
+.player-controls button { background: #000; color: #fff; border: none; padding: 10px; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: 0.2s; }
+.player-controls button:hover { transform: scale(1.1); background: #00aaff; }
 
 /* --- CARDS & OVERLAYS --- */
-.p3r-overlay {
-    display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.8); z-index: 500; justify-content: center; align-items: center;
-}
-.p3r-card {
-    background: #00aaff; padding: 30px; border: 4px solid #fff;
-    opacity: 0; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-}
-.side-card { transform: skew(-10deg) translateX(-150%); position: absolute; left: 10vw; width: 350px; }
+.p3r-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); z-index: 500; justify-content: center; align-items: center; }
+.p3r-card { background: #00aaff; padding: 30px; border: 4px solid #fff; opacity: 0; transition: 0.6s; box-shadow: 15px 15px 0 #000; }
+.side-card { transform: skew(-10deg) translateX(150%); position: absolute; right: 10vw; width: 350px; }
 .center-card { transform: scale(0.8); width: 500px; }
-
 .p3r-card.show { opacity: 1; transform: skew(-10deg) translateX(0) scale(1); }
 .card-content { color: #fff; transform: skew(10deg); }
-.title { background: #fff; color: #000; padding: 5px 15px; display: inline-block; margin-bottom: 20px; }
+.title { background: #fff; color: #000; padding: 5px 15px; display: inline-block; margin-bottom: 20px; font-weight: bold; }
 
-/* --- READER --- */
-.reader-container { width: 92vw; height: 92vh; background: #000; border: 4px solid #fff; display: flex; flex-direction: column; }
-.reader-header { background: #00aaff; padding: 15px; display: flex; justify-content: space-between; color: #fff; border-bottom: 4px solid #fff; }
-.reader-header button { background: #000; color: #fff; border: 1px solid #fff; cursor: pointer; }
-#novel-iframe { flex-grow: 1; background: #fff; }
-
-.headphone-toggle { position: fixed; bottom: 25px; right: 25px; z-index: 300; background: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 4px 4px 0 #00aaff; transition: 0.5s; }
-.headphone-toggle.rotating { transform: rotate(360deg); background: #00aaff; }
-
-/* NOVEL ITEMS */
 .project-item { background: #000; border: 2px solid #fff; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.3s; }
 .project-item:hover { background: #fff; color: #000; transform: scale(1.05); }
 
-/* STATS BAR */
 .stat-bar { margin-bottom: 12px; }
-.stat-label { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 3px; }
+.stat-label { display: flex; justify-content: space-between; font-size: 0.75rem; }
 .bar { background: #000; height: 12px; border: 1px solid #fff; }
 .fill { background: #fff; height: 100%; width: 0; transition: 1.5s; }
 .fill.blue { background: #00aaff; }
 
-/* CONTACT */
-.contact-item { background: #000; color: #fff; border: 2px solid #fff; padding: 12px; display: block; margin-bottom: 8px; text-decoration: none; text-align: center; }
+.contact-item { background: #000; color: #fff; border: 2px solid #fff; padding: 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; text-decoration: none; }
+.contact-icon { background: #00aaff; padding: 2px 5px; font-weight: bold; }
 .contact-item:hover { background: #fff; color: #000; }
+
+.reader-container { width: 92vw; height: 92vh; background: #000; border: 4px solid #fff; display: flex; flex-direction: column; }
+.reader-header { background: #00aaff; padding: 15px; display: flex; justify-content: space-between; color: #fff; }
+#novel-iframe { flex-grow: 1; background: #fff; }
 .back-btn { background: #000; color: #fff; border: 2px solid #fff; padding: 10px 20px; cursor: pointer; margin-top: 15px; }

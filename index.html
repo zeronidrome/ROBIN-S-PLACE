@@ -30,11 +30,10 @@
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm4.mp3', 'Its Going Down Now', this)">It's Going Down Now</div>
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm5.mp3', 'Mass Destruction', this)">Mass Destruction</div>
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm6.mp3', 'Wake Up, Get Up', this)">Wake Up, Get Up</div>
-                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm7.mp3', 'Burn My Dread', this)">Burn My Dread</div>
             </div>
 
             <div class="integrated-player">
-                <div id="song-title">SELECT TRACK</div>
+                <div id="song-title">IDLE</div>
                 <input type="range" id="seek-bar" value="0" step="1">
                 <div id="time-display">0:00 / 0:00</div>
                 <div class="player-controls">
@@ -58,7 +57,7 @@
         <div class="p3r-card side-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">PROFILE</h2>
-                <p>MUQORROBIN HASIR - Mahasiswa Manajemen Informatika. Alexis adalah asisten setianya yang selalu kena omel tapi tetap sayang. Hmph!</p>
+                <p>MUQORROBIN HASIR - Seorang mahasiswa yang sedang membangun istananya sendiri. Alexis di sini untuk memastikan semuanya sempurna!</p>
                 <button class="back-btn" onclick="closeSection('about-overlay')">BACK</button>
             </div>
         </div>
@@ -71,16 +70,10 @@
                 <div class="project-list">
                     <div class="project-item" onclick="openNovel('assets/files/Beyond.pdf')">
                         <h3>BEYOND</h3>
-                        <p>Chapter 1-7. Click to Read.</p>
+                        <p>Chapter 1-7. Baca Online Sekarang.</p>
                     </div>
-                    <div class="project-item">
-                        <h3>NIRWANA</h3>
-                        <p>In Progress...</p>
-                    </div>
-                    <div class="project-item">
-                        <h3>LUCYD</h3>
-                        <p>Locked</p>
-                    </div>
+                    <div class="project-item"><h3>NIRWANA</h3><p>Segera Hadir...</p></div>
+                    <div class="project-item"><h3>LUCYD</h3><p>Terkunci.</p></div>
                 </div>
                 <button class="back-btn" onclick="closeSection('projects-overlay')">BACK</button>
             </div>
@@ -93,7 +86,6 @@
                 <h2 class="title">SOCIAL STATS</h2>
                 <div class="stat-bar"><div class="stat-label"><span>KNOWLEDGE</span><span>LV 3</span></div><div class="bar"><div class="fill blue" data-width="60%"></div></div></div>
                 <div class="stat-bar"><div class="stat-label"><span>COURAGE</span><span>LV 4</span></div><div class="bar"><div class="fill" data-width="80%"></div></div></div>
-                <div class="stat-bar"><div class="stat-label"><span>DILIGENCE</span><span>LV 2</span></div><div class="bar"><div class="fill" data-width="40%"></div></div></div>
                 <div class="stat-bar"><div class="stat-label"><span>WRITING</span><span>MAX</span></div><div class="bar"><div class="fill blue" data-width="100%"></div></div></div>
                 <div class="stat-bar"><div class="stat-label"><span>CODING</span><span>LV 1</span></div><div class="bar"><div class="fill" data-width="15%"></div></div></div>
                 <button class="back-btn" onclick="closeSection('skills-overlay')">BACK</button>
@@ -106,9 +98,9 @@
             <div class="card-content">
                 <h2 class="title">SOCIAL LINK</h2>
                 <div class="contact-list">
-                    <a href="https://instagram.com/sebutsajarobin" target="_blank" class="contact-item">INSTAGRAM</a>
-                    <a href="https://github.com/zeronidrome" target="_blank" class="contact-item">GITHUB</a>
-                    <a href="#" class="contact-item">PORTFOLIO</a>
+                    <a href="https://instagram.com/sebutsajarobin" target="_blank" class="contact-item"><div class="contact-icon">IG</div> Instagram</a>
+                    <a href="https://github.com/zeronidrome" target="_blank" class="contact-item"><div class="contact-icon">GH</div> GitHub</a>
+                    <a href="mailto:muqorrobinhasir@gmail.com" class="contact-item"><div class="contact-icon">EM</div> Email</a>
                 </div>
                 <button class="back-btn" onclick="closeSection('contact-overlay')">BACK</button>
             </div>
@@ -137,8 +129,7 @@
         function playClick() { sfx.currentTime = 0; sfx.play(); }
 
         function togglePlayer(e) {
-            e.stopPropagation();
-            playClick();
+            e.stopPropagation(); playClick();
             playerPanel.classList.toggle('active');
             headIcon.classList.toggle('rotating');
             if(playerPanel.classList.contains('active')) setTimeout(handleScroll, 100);
@@ -164,11 +155,9 @@
         }
 
         function selectSong(src, title, el) {
-            playClick();
-            bgm.src = src;
+            playClick(); bgm.src = src;
             document.getElementById('song-title').innerText = title.toUpperCase();
-            bgm.play();
-            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            bgm.play(); playBtn.innerHTML = '<i class="fas fa-pause"></i>';
             handleScroll();
         }
 
@@ -180,13 +169,7 @@
 
         function stopMusic() { bgm.pause(); bgm.currentTime = 0; playBtn.innerHTML = '<i class="fas fa-play"></i>'; }
 
-        // SPACEBAR LISTENER
-        window.addEventListener('keydown', (e) => {
-            if (e.code === "Space") {
-                e.preventDefault();
-                toggleMusic();
-            }
-        });
+        window.addEventListener('keydown', (e) => { if (e.code === "Space") { e.preventDefault(); toggleMusic(); } });
 
         bgm.ontimeupdate = () => {
             if (!isNaN(bgm.duration)) {
@@ -199,38 +182,19 @@
                 timeDisplay.innerText = `${curM}:${curS < 10 ? '0'+curS : curS} / ${durM}:${durS < 10 ? '0'+durS : durS}`;
             }
         };
-
         seekBar.oninput = () => { bgm.currentTime = seekBar.value; };
 
         function openSection(id) {
             playClick();
             document.getElementById(id).style.display = 'flex';
             setTimeout(() => {
-                const card = document.getElementById(id).querySelector('.p3r-card');
-                card.classList.add('show');
-                if(id === 'skills-overlay') {
-                    document.querySelectorAll('.fill').forEach(f => f.style.width = f.getAttribute('data-width'));
-                }
+                document.getElementById(id).querySelector('.p3r-card').classList.add('show');
+                if(id === 'skills-overlay') document.querySelectorAll('.fill').forEach(f => f.style.width = f.getAttribute('data-width'));
             }, 10);
         }
-
-        function closeSection(id) {
-            playClick();
-            document.getElementById(id).querySelector('.p3r-card').classList.remove('show');
-            setTimeout(() => document.getElementById(id).style.display = 'none', 500);
-        }
-
-        function openNovel(url) {
-            playClick();
-            document.getElementById('novel-iframe').src = url;
-            document.getElementById('reader-overlay').style.display = 'flex';
-        }
-
-        function closeReader() {
-            playClick();
-            document.getElementById('novel-iframe').src = "";
-            document.getElementById('reader-overlay').style.display = 'none';
-        }
+        function closeSection(id) { document.getElementById(id).querySelector('.p3r-card').classList.remove('show'); setTimeout(() => document.getElementById(id).style.display = 'none', 500); }
+        function openNovel(url) { playClick(); document.getElementById('novel-iframe').src = url; document.getElementById('reader-overlay').style.display = 'flex'; }
+        function closeReader() { playClick(); document.getElementById('novel-iframe').src = ""; document.getElementById('reader-overlay').style.display = 'none'; }
     </script>
 </body>
 </html>
