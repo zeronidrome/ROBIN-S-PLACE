@@ -6,6 +6,7 @@
     <title>Robin's Palace</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" type="image/png" href="logo1.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body onclick="closePanelOutside(event)">
 
@@ -21,6 +22,7 @@
     <div class="music-panel" id="player-panel" onclick="event.stopPropagation()">
         <div class="music-panel-content">
             <h2 class="soundtrack-header">SOUND TRACK</h2>
+            
             <div class="song-list" id="rolling-list" onscroll="handleScroll()">
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm1.mp3', 'Color Your Night', this)">Color Your Night</div>
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm2.mp3', 'Heartbeat, Heartbreak', this)">Heartbeat, Heartbreak</div>
@@ -28,14 +30,16 @@
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm4.mp3', 'Its Going Down Now', this)">It's Going Down Now</div>
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm5.mp3', 'Mass Destruction', this)">Mass Destruction</div>
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm6.mp3', 'Wake Up, Get Up', this)">Wake Up, Get Up</div>
+                <div class="song-item" onclick="selectSong('assets/soundtracks/bgm7.mp3', 'Burn My Dread', this)">Burn My Dread</div>
             </div>
-            <div class="mini-player-bottom">
-                <div id="song-title">IDLE</div>
+
+            <div class="integrated-player">
+                <div id="song-title">SELECT TRACK</div>
                 <input type="range" id="seek-bar" value="0" step="1">
                 <div id="time-display">0:00 / 0:00</div>
                 <div class="player-controls">
-                    <button onclick="toggleMusic()" id="play-btn">PLAY</button>
-                    <button onclick="stopMusic()">STOP</button>
+                    <button onclick="toggleMusic()" id="play-btn"><i class="fas fa-play"></i></button>
+                    <button onclick="stopMusic()"><i class="fas fa-stop"></i></button>
                 </div>
             </div>
         </div>
@@ -51,31 +55,31 @@
     </nav>
 
     <div id="about-overlay" class="p3r-overlay" onclick="closeSection('about-overlay')">
-        <div class="p3r-card" onclick="event.stopPropagation()">
+        <div class="p3r-card side-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">PROFILE</h2>
-                <p>MUQORROBIN HASIR - Mahasiswa Manajemen Informatika. Suka vibes koding tapi benci error. Alexis adalah asisten terbaiknya! Hmph!</p>
+                <p>MUQORROBIN HASIR - Mahasiswa Manajemen Informatika. Alexis adalah asisten setianya yang selalu kena omel tapi tetap sayang. Hmph!</p>
                 <button class="back-btn" onclick="closeSection('about-overlay')">BACK</button>
             </div>
         </div>
     </div>
 
     <div id="projects-overlay" class="p3r-overlay" onclick="closeSection('projects-overlay')">
-        <div class="p3r-card" onclick="event.stopPropagation()">
+        <div class="p3r-card center-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">MISSION LOG</h2>
                 <div class="project-list">
                     <div class="project-item" onclick="openNovel('assets/files/Beyond.pdf')">
                         <h3>BEYOND</h3>
-                        <p>Chapter 1-7. Click to Read Online.</p>
+                        <p>Chapter 1-7. Click to Read.</p>
                     </div>
                     <div class="project-item">
                         <h3>NIRWANA</h3>
-                        <p>Coming Soon</p>
+                        <p>In Progress...</p>
                     </div>
                     <div class="project-item">
                         <h3>LUCYD</h3>
-                        <p>Coming Soon</p>
+                        <p>Locked</p>
                     </div>
                 </div>
                 <button class="back-btn" onclick="closeSection('projects-overlay')">BACK</button>
@@ -84,24 +88,27 @@
     </div>
 
     <div id="skills-overlay" class="p3r-overlay" onclick="closeSection('skills-overlay')">
-        <div class="p3r-card" onclick="event.stopPropagation()">
+        <div class="p3r-card side-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">SOCIAL STATS</h2>
-                <div class="stat-bar"><div class="stat-label"><span>WRITING</span><span>99%</span></div><div class="bar"><div class="fill" data-width="99%"></div></div></div>
-                <div class="stat-bar"><div class="stat-label"><span>GAMING</span><span>MAX</span></div><div class="bar"><div class="fill blue" data-width="100%"></div></div></div>
-                <div class="stat-bar"><div class="stat-label"><span>CODING</span><span>5%</span></div><div class="bar"><div class="fill" data-width="5%"></div></div></div>
+                <div class="stat-bar"><div class="stat-label"><span>KNOWLEDGE</span><span>LV 3</span></div><div class="bar"><div class="fill blue" data-width="60%"></div></div></div>
+                <div class="stat-bar"><div class="stat-label"><span>COURAGE</span><span>LV 4</span></div><div class="bar"><div class="fill" data-width="80%"></div></div></div>
+                <div class="stat-bar"><div class="stat-label"><span>DILIGENCE</span><span>LV 2</span></div><div class="bar"><div class="fill" data-width="40%"></div></div></div>
+                <div class="stat-bar"><div class="stat-label"><span>WRITING</span><span>MAX</span></div><div class="bar"><div class="fill blue" data-width="100%"></div></div></div>
+                <div class="stat-bar"><div class="stat-label"><span>CODING</span><span>LV 1</span></div><div class="bar"><div class="fill" data-width="15%"></div></div></div>
                 <button class="back-btn" onclick="closeSection('skills-overlay')">BACK</button>
             </div>
         </div>
     </div>
 
     <div id="contact-overlay" class="p3r-overlay" onclick="closeSection('contact-overlay')">
-        <div class="p3r-card" onclick="event.stopPropagation()">
+        <div class="p3r-card side-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">SOCIAL LINK</h2>
                 <div class="contact-list">
-                    <a href="https://www.instagram.com/sebutsajarobin" target="_blank" class="contact-item">IG - INSTAGRAM</a>
-                    <a href="https://github.com/zeronidrome" target="_blank" class="contact-item">GH - GITHUB</a>
+                    <a href="https://instagram.com/sebutsajarobin" target="_blank" class="contact-item">INSTAGRAM</a>
+                    <a href="https://github.com/zeronidrome" target="_blank" class="contact-item">GITHUB</a>
+                    <a href="#" class="contact-item">PORTFOLIO</a>
                 </div>
                 <button class="back-btn" onclick="closeSection('contact-overlay')">BACK</button>
             </div>
@@ -114,9 +121,7 @@
                 <span>MISSION LOG: BEYOND</span>
                 <button onclick="closeReader()">CLOSE [X]</button>
             </div>
-            <div class="iframe-wrapper">
-                <iframe id="novel-iframe" src="" frameborder="0"></iframe>
-            </div>
+            <iframe id="novel-iframe" src="" frameborder="0"></iframe>
         </div>
     </div>
 
@@ -127,6 +132,7 @@
         const headIcon = document.getElementById('head-icon');
         const seekBar = document.getElementById('seek-bar');
         const timeDisplay = document.getElementById('time-display');
+        const playBtn = document.getElementById('play-btn');
 
         function playClick() { sfx.currentTime = 0; sfx.play(); }
 
@@ -162,17 +168,25 @@
             bgm.src = src;
             document.getElementById('song-title').innerText = title.toUpperCase();
             bgm.play();
-            document.getElementById('play-btn').innerText = "PAUSE";
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
             handleScroll();
         }
 
         function toggleMusic() {
             if (!bgm.src) return;
-            if (bgm.paused) { bgm.play(); document.getElementById('play-btn').innerText = "PAUSE"; }
-            else { bgm.pause(); document.getElementById('play-btn').innerText = "PLAY"; }
+            if (bgm.paused) { bgm.play(); playBtn.innerHTML = '<i class="fas fa-pause"></i>'; }
+            else { bgm.pause(); playBtn.innerHTML = '<i class="fas fa-play"></i>'; }
         }
 
-        function stopMusic() { bgm.pause(); bgm.currentTime = 0; document.getElementById('play-btn').innerText = "PLAY"; }
+        function stopMusic() { bgm.pause(); bgm.currentTime = 0; playBtn.innerHTML = '<i class="fas fa-play"></i>'; }
+
+        // SPACEBAR LISTENER
+        window.addEventListener('keydown', (e) => {
+            if (e.code === "Space") {
+                e.preventDefault();
+                toggleMusic();
+            }
+        });
 
         bgm.ontimeupdate = () => {
             if (!isNaN(bgm.duration)) {

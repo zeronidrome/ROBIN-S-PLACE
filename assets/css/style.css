@@ -1,97 +1,95 @@
-/* --- 1. GLOBAL RESET --- */
-link[rel="icon"] { border-radius: 50%; }
+/* --- GLOBAL --- */
 body {
     margin: 0; padding: 0; height: 100vh; width: 100vw;
     display: flex; justify-content: center; align-items: center;
-    overflow: hidden; background-color: #000;
-    font-family: 'Arial Black', sans-serif;
+    overflow: hidden; background: #000; font-family: 'Arial Black', sans-serif;
 }
-#bg-video {
-    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 100vw; height: 100vh; z-index: -1; object-fit: cover;
-    filter: brightness(0.5);
-}
+#bg-video { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100vw; height: 100vh; z-index: -1; object-fit: cover; filter: brightness(0.5); }
 
-/* --- 2. MAIN MENU --- */
-.p3r-menu { z-index: 10; transition: opacity 0.3s ease; }
-.p3r-menu ul { list-style: none; padding: 0; transform: rotate(-10deg); }
+/* --- MENU SAMPING --- */
+.p3r-menu { position: absolute; left: 5vw; z-index: 10; }
+.p3r-menu ul { list-style: none; padding: 0; transform: rotate(-5deg); }
 .p3r-menu li {
-    background: #fff; margin: 10px 0; padding: 12px; width: 300px;
-    text-align: center; transform: skew(-20deg); cursor: pointer;
-    border-left: 8px solid #00aaff; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: #fff; margin: 15px 0; padding: 15px; width: 280px;
+    transform: skew(-20deg); cursor: pointer; border-left: 8px solid #00aaff;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.p3r-menu li span { display: block; transform: skew(20deg); font-size: 1.2rem; font-weight: bold; }
-.p3r-menu li:hover { background: #00aaff; width: 340px; color: #fff; transform: skew(-20deg) scale(1.05); }
+.p3r-menu li span { display: block; transform: skew(20deg); font-size: 1.3rem; }
+.p3r-menu li:hover { background: #00aaff; width: 320px; color: #fff; transform: skew(-20deg) translateX(10px); }
 
-/* --- 3. MUSIC PANEL (ESTETIK SEGITIGA) --- */
-.headphone-toggle {
-    position: fixed; bottom: 25px; right: 25px; z-index: 300;
-    background: #fff; width: 55px; height: 55px; border-radius: 50%;
-    display: flex; justify-content: center; align-items: center; cursor: pointer;
-    font-size: 1.5rem; box-shadow: 4px 4px 0 #00aaff; transition: 0.5s;
-}
-.headphone-toggle.rotating { transform: rotate(360deg); background: #00aaff; color: #fff; }
-
+/* --- MUSIC PANEL SEGITIGA --- */
 .music-panel {
     position: fixed; top: 0; right: 0; width: 35vw; height: 100vh;
     background: rgba(0, 0, 0, 0.95); z-index: 250;
-    clip-path: polygon(15% 0, 100% 0, 100% 100%, 45% 100%);
+    clip-path: polygon(20% 0, 100% 0, 100% 100%, 50% 100%);
     transform: translateX(100%); transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     border-left: 4px solid #00aaff; pointer-events: none;
 }
 .music-panel.active { transform: translateX(0); pointer-events: auto; }
-.music-panel-content { display: flex; flex-direction: column; height: 100%; padding: 40px 20px 20px 80px; }
+.music-panel-content { display: flex; flex-direction: column; height: 100%; padding: 40px 20px 0 100px; }
 
-.soundtrack-header { color: #fff; text-align: right; border-bottom: 5px solid #00aaff; padding-bottom: 10px; font-size: 1.5rem; }
+.soundtrack-header { color: #fff; text-align: right; border-bottom: 5px solid #00aaff; padding-bottom: 10px; }
 
-.song-list { flex-grow: 1; overflow-y: auto; padding: 50px 0; scroll-behavior: smooth; }
+.song-list { flex-grow: 1; overflow-y: auto; padding: 50px 0; }
 .song-list::-webkit-scrollbar { display: none; }
 
 .song-item {
-    background: #fff; color: #000; margin: 10px 0; padding: 12px;
-    width: 80%; transform: skew(-15deg); cursor: pointer; opacity: 0.4;
-    font-size: 0.8rem; text-align: right; transition: 0.3s; font-weight: bold;
+    background: #fff; color: #000; margin: 12px 0; padding: 12px;
+    width: 85%; transform: skew(-15deg); cursor: pointer; opacity: 0.5;
+    text-align: right; transition: 0.3s; font-weight: bold;
 }
-.song-item.center-focus { opacity: 1; background: #00aaff; color: #fff; transform: skew(-15deg) scale(1.1) translateX(-15px); box-shadow: 5px 5px 0 #fff; }
+.song-item:hover { background: #00aaff; color: #fff; opacity: 0.9; transform: skew(-15deg) translateX(-10px); }
+.song-item.center-focus { opacity: 1; background: #00aaff; color: #fff; transform: skew(-15deg) scale(1.1) translateX(-20px); box-shadow: 5px 5px 0 #fff; }
 
-.mini-player-bottom { background: #00aaff; padding: 20px; border: 3px solid #fff; transform: skew(-10deg); margin-top: auto; color: #fff; }
-#song-title { font-size: 0.9rem; font-weight: bold; text-align: center; margin-bottom: 5px; }
-#time-display { font-size: 0.7rem; text-align: center; margin-bottom: 10px; }
-.player-controls { display: flex; justify-content: space-around; }
-.player-controls button { background: #000; color: #fff; border: 2px solid #fff; cursor: pointer; padding: 5px 15px; font-family: 'Arial Black'; }
+/* PLAYER NYATU SAMA UJUNG RUNCING */
+.integrated-player {
+    padding: 30px 20px 50px 40px; color: #fff; 
+    display: flex; flex-direction: column; align-items: center;
+}
+#song-title { font-size: 0.8rem; margin-bottom: 10px; background: #fff; color: #000; padding: 2px 10px; transform: skew(-10deg); }
+#seek-bar { width: 100%; accent-color: #00aaff; cursor: pointer; }
+#time-display { font-size: 0.7rem; margin: 5px 0; }
+.player-controls { display: flex; gap: 20px; }
+.player-controls button { background: none; border: 2px solid #fff; color: #fff; font-size: 1.2rem; padding: 10px; border-radius: 50%; cursor: pointer; transition: 0.3s; width: 45px; height: 45px; }
+.player-controls button:hover { background: #fff; color: #00aaff; }
 
-/* --- 4. OVERLAYS & CARDS --- */
+/* --- CARDS & OVERLAYS --- */
 .p3r-overlay {
     display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: rgba(0, 0, 0, 0.8); z-index: 500; justify-content: center; align-items: center;
 }
 .p3r-card {
-    background: #00aaff; padding: 30px; width: 420px; border: 4px solid #fff;
-    transform: skew(-10deg) translateX(150%); transition: 0.6s; opacity: 0; box-shadow: 15px 15px 0 #000;
+    background: #00aaff; padding: 30px; border: 4px solid #fff;
+    opacity: 0; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
-.p3r-card.show { transform: skew(-10deg) translateX(0); opacity: 1; }
+.side-card { transform: skew(-10deg) translateX(-150%); position: absolute; left: 10vw; width: 350px; }
+.center-card { transform: scale(0.8); width: 500px; }
+
+.p3r-card.show { opacity: 1; transform: skew(-10deg) translateX(0) scale(1); }
 .card-content { color: #fff; transform: skew(10deg); }
-.title { background: #fff; color: #000; padding: 5px 15px; display: inline-block; margin-bottom: 20px; font-weight: bold; }
+.title { background: #fff; color: #000; padding: 5px 15px; display: inline-block; margin-bottom: 20px; }
 
+/* --- READER --- */
+.reader-container { width: 92vw; height: 92vh; background: #000; border: 4px solid #fff; display: flex; flex-direction: column; }
+.reader-header { background: #00aaff; padding: 15px; display: flex; justify-content: space-between; color: #fff; border-bottom: 4px solid #fff; }
+.reader-header button { background: #000; color: #fff; border: 1px solid #fff; cursor: pointer; }
+#novel-iframe { flex-grow: 1; background: #fff; }
+
+.headphone-toggle { position: fixed; bottom: 25px; right: 25px; z-index: 300; background: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 4px 4px 0 #00aaff; transition: 0.5s; }
+.headphone-toggle.rotating { transform: rotate(360deg); background: #00aaff; }
+
+/* NOVEL ITEMS */
 .project-item { background: #000; border: 2px solid #fff; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.3s; }
-.project-item:hover { background: #fff; color: #000; transform: translateX(10px); }
-.project-item h3 { margin: 0; color: #00aaff; font-size: 1rem; }
-.project-item p { margin: 5px 0 0 0; font-size: 0.75rem; color: #ccc; }
+.project-item:hover { background: #fff; color: #000; transform: scale(1.05); }
 
-.stat-bar { margin-bottom: 15px; }
-.stat-label { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px; }
-.bar { background: #000; height: 15px; border: 1px solid #fff; }
-.fill { background: #fff; height: 100%; width: 0; transition: 1.5s cubic-bezier(0.1, 1, 0.1, 1); }
+/* STATS BAR */
+.stat-bar { margin-bottom: 12px; }
+.stat-label { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 3px; }
+.bar { background: #000; height: 12px; border: 1px solid #fff; }
+.fill { background: #fff; height: 100%; width: 0; transition: 1.5s; }
 .fill.blue { background: #00aaff; }
 
-.contact-item { background: #000; color: #fff; border: 2px solid #fff; padding: 15px; display: block; margin-bottom: 10px; text-decoration: none; transition: 0.3s; }
-.contact-item:hover { background: #fff; color: #000; transform: translateX(-10px); }
-
-/* --- 5. FULL SCREEN READER --- */
-.reader-container { width: 92vw; height: 92vh; background: #000; border: 4px solid #fff; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(0, 170, 255, 0.6); }
-.reader-header { background: #00aaff; color: #fff; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #fff; font-weight: bold; }
-.reader-header button { background: #000; color: #fff; border: 2px solid #fff; cursor: pointer; padding: 5px 15px; }
-.iframe-wrapper { flex-grow: 1; background: #fff; }
-#novel-iframe { width: 100%; height: 100%; }
-
-.back-btn { margin-top: 20px; background: #000; color: #fff; border: 2px solid #fff; cursor: pointer; padding: 10px 20px; font-family: 'Arial Black'; }
+/* CONTACT */
+.contact-item { background: #000; color: #fff; border: 2px solid #fff; padding: 12px; display: block; margin-bottom: 8px; text-decoration: none; text-align: center; }
+.contact-item:hover { background: #fff; color: #000; }
+.back-btn { background: #000; color: #fff; border: 2px solid #fff; padding: 10px 20px; cursor: pointer; margin-top: 15px; }
