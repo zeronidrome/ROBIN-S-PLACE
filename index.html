@@ -22,7 +22,6 @@
     <div class="music-panel" id="player-panel" onclick="event.stopPropagation()">
         <div class="music-panel-content">
             <h2 class="soundtrack-header">SOUND TRACK</h2>
-            
             <div class="song-list" id="rolling-list" onscroll="handleScroll()">
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm1.mp3', 'Color Your Night', this)">Color Your Night</div>
                 <div class="song-item" onclick="selectSong('assets/soundtracks/bgm2.mp3', 'Heartbeat, Heartbreak', this)">Heartbeat, Heartbreak</div>
@@ -57,7 +56,7 @@
         <div class="p3r-card side-card" onclick="event.stopPropagation()">
             <div class="card-content">
                 <h2 class="title">PROFILE</h2>
-                <p>MUQORROBIN HASIR - Seorang mahasiswa yang sedang membangun istananya sendiri. Alexis di sini untuk memastikan semuanya sempurna!</p>
+                <p>MUQORROBIN HASIR - Seorang mahasiswa yang hobinya bongkar pasang kodingan sampai Alexis pusing. Hmph!</p>
                 <button class="back-btn" onclick="closeSection('about-overlay')">BACK</button>
             </div>
         </div>
@@ -72,8 +71,8 @@
                         <h3>BEYOND</h3>
                         <p>Chapter 1-7. Baca Online Sekarang.</p>
                     </div>
-                    <div class="project-item"><h3>NIRWANA</h3><p>Segera Hadir...</p></div>
-                    <div class="project-item"><h3>LUCYD</h3><p>Terkunci.</p></div>
+                    <div class="project-item"><h3>NIRWANA</h3><p>Coming Soon</p></div>
+                    <div class="project-item"><h3>LUCYD</h3><p>Terkunci</p></div>
                 </div>
                 <button class="back-btn" onclick="closeSection('projects-overlay')">BACK</button>
             </div>
@@ -191,8 +190,15 @@
                 document.getElementById(id).querySelector('.p3r-card').classList.add('show');
                 if(id === 'skills-overlay') document.querySelectorAll('.fill').forEach(f => f.style.width = f.getAttribute('data-width'));
             }, 10);
+            document.querySelector('.p3r-menu').style.opacity = '0.2';
         }
-        function closeSection(id) { document.getElementById(id).querySelector('.p3r-card').classList.remove('show'); setTimeout(() => document.getElementById(id).style.display = 'none', 500); }
+        function closeSection(id) { 
+            document.getElementById(id).querySelector('.p3r-card').classList.remove('show'); 
+            setTimeout(() => {
+                document.getElementById(id).style.display = 'none';
+                document.querySelector('.p3r-menu').style.opacity = '1';
+            }, 500); 
+        }
         function openNovel(url) { playClick(); document.getElementById('novel-iframe').src = url; document.getElementById('reader-overlay').style.display = 'flex'; }
         function closeReader() { playClick(); document.getElementById('novel-iframe').src = ""; document.getElementById('reader-overlay').style.display = 'none'; }
     </script>
